@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    
+</head>
+<body>
+    <div class="page-loader loader">
+        <div class="cmps">
+            <span class="mt-4 mx-auto d-block text-center">
+                Loading<b></b><b></b><b></b>
+            </span>
+        </div>
+    </div>
+
+
+    <header class="header">
+        <div class="container">
+            <section class="header--main">
+                <div class="mobile-menu">
+                    <input id="menu__toggle" class="open-nav" type="checkbox" />
+                    <label class="menu__btn" class="open" for="menu__toggle">
+                        <span></span>
+                    </label>
+                </div>
+
+                <div class="header--logo">
+                    <!-- <a href="./"><span>Ora</span> Watches &amp Jewelery</a> -->
+                    <a href="./">
+                        <img src="/img/categories/armani.png" class="nav-logo" alt="LOGO HERE!">
+                    </a>
+                </div>
+                <nav class="menu js-menu">
+                    <ul class="ul-menu">
+                        <li class="menu-item">
+                            <a href="./" class="active">Home</a>
+                        </li>
+                        <li class="menu-item menu-item-child">
+                            <a href="#" class="js-sub_menu">Products <i class="uil uil-angle-down"></i></a>
+                            <ul class="sub-menu">
+                                <li class="sub-menu-item"><a href="/products">All Products</a></li>
+                                <li class="sub-menu-item"><a href="/single-product">Single Post</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-item menu-item-child">
+                            <a href="#" class="js-sub_menu">Pages <i class="uil uil-angle-down"></i></a>
+                            <ul class="sub-menu">
+                                <li class="sub-menu-item"><a href="/login-page">Log In</a></li>
+                                <li class="sub-menu-item"><a href="/register-page">Sign Up</a></li>
+                                <li class="sub-menu-item"><a href="/blog-page">Blog</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/about-page" class="active">About</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/contact-page">Contact Us</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="darkLight-searchBox">
+                    <div class="dark-light">
+                        <!-- <i class="fa-solid fa-moon moon"></i> -->
+                        <!-- <i class="fa-solid fa-sun"></i> -->
+                        <i class="uil uil-moon moon"></i>
+                        <i class="uil uil-sun sun"></i>
+                    </div>
+                    <div class="searchBox">
+                        <div class="searchToggle">
+                            <!-- <i class="fa-solid fa-xmark cancel"></i> -->
+                            <!-- <i class="fa-solid fa-magnifying-glass search"></i> -->
+                            <i class="uil uil-times cancel"></i>
+                            <i class="uil uil-search search"></i>
+                        </div>
+
+                        <div class="search-field">
+                            <input type="text" placeholder="Search..." />
+                            <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
+                            <i class="uil uil-search-alt"></i>
+                        </div>
+                    </div>
+                    <div class="cart-checkout">
+                        <a href="/cart-page"> <i class="uil uil-shopping-bag shopping-cart">  </i></a>
+                    </div>
+                    <!-- <i class="fa-solid fa-bars open-nav"></i> -->
+                </div>
+            </section>
+            <div class="progress"></div>
+        </div>
+    </header>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

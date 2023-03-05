@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    footer a{
+      float: right;
+      margin-right: 30px;
+    }
+    .footer{
+      height: 50px;
+      background-color: black;
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+    .padding{
+     padding: .9% 30% 0 30%
+    }
+
+    @media all and (max-width: 750px) {
+      .padding{
+        padding: .9% 10% 0 10%
+       }
+      }
+  </style>
+</head>
+<body>
+  <div class="navbar-dark bg-dark footer">
+  <footer>
+    <!-- <p id="year" style="color:red;">   ©  COMPANY NAME <script>document.getElementById("year").innerHTML = new Date().getFullYear();</script> <a href="#" style="color:white;">Contact</a></p>  -->
+    <p id="year" style="color:red;text-align: center;">  <script>document.getElementById("year").innerHTML = new Date().getFullYear();©  COMPANY NAME </script> </p> 
+  </div>
+    
+</footer>
+</body>
+</html>
