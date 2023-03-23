@@ -26,7 +26,7 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk  t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
@@ -36,104 +36,17 @@
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
-    <div class="page-loader loader">
+  <body>  
+    <!-- <div class="page-loader loader">
       <div class="cmps">
         <span class="mt-4 mx-auto d-block text-center">
           Loading<b></b><b></b><b></b>
         </span>
       </div>
-    </div>
+    </div> -->
 
-    <header class="header">
-      <div class="container">
-        <section class="header--main">
-          <div class="mobile-menu">
-            <input id="menu__toggle" class="open-nav" type="checkbox" />
-            <label class="menu__btn" class="open" for="menu__toggle">
-              <span></span>
-            </label>
-          </div>
-          <div class="header--logo">
-            <a href="./">
-              <img
-                src="img/light-logo.png"
-                class="nav-logo"
-                alt="Ora Watches &amp; Jewelery | Logo"
-              />
-            </a>
-          </div>
-          <nav class="menu js-menu">
-            <ul class="ul-menu">
-              <li class="menu-item">
-                <a href="./">Home</a>
-              </li>
-              <li class="menu-item menu-item-child">
-                <a href="#" class="js-sub_menu"
-                  >Products <i class="uil uil-angle-down"></i
-                ></a>
-                <ul class="sub-menu">
-                  <li class="sub-menu-item">
-                    <a href="./products/products.html">All Products</a>
-                  </li>
-                  <li class="sub-menu-item">
-                    <a href="./products/single-products.html">Single Post</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="menu-item menu-item-child">
-                <a href="#" class="js-sub_menu active-n"
-                  >Pages <i class="uil uil-angle-down"></i
-                ></a>
-                <ul class="sub-menu">
-                  <li class="sub-menu-item">
-                    <a href="./log-in.html">Log In</a>
-                  </li>
-                  <li class="sub-menu-item">
-                    <a href="./sign-up.html">Sign Up</a>
-                  </li>
-                  <li class="sub-menu-item">
-                    <a href="./blog.html" class="active">Blog</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="menu-item">
-                <a href="./about.html">About</a>
-              </li>
-              <li class="menu-item">
-                <a href="./contact.html">Contact Us</a>
-              </li>
-            </ul>
-          </nav>
-          <div class="darkLight-searchBox">
-            <div class="dark-light">
-              <!-- <i class="fa-solid fa-moon moon"></i> -->
-              <!-- <i class="fa-solid fa-sun"></i> -->
-              <i class="uil uil-moon moon"></i>
-              <i class="uil uil-sun sun"></i>
-            </div>
-            <div class="searchBox">
-              <div class="searchToggle">
-                <!-- <i class="fa-solid fa-xmark cancel"></i> -->
-                <!-- <i class="fa-solid fa-magnifying-glass search"></i> -->
-                <i class="uil uil-times cancel"></i>
-                <i class="uil uil-search search"></i>
-              </div>
-
-              <div class="search-field">
-                <input type="text" placeholder="Search..." />
-                <!-- <i class="fa-solid fa-magnifying-glass"></i> -->
-                <i class="uil uil-search-alt"></i>
-              </div>
-            </div>
-            <div class="cart-checkout">
-              <i class="uil uil-shopping-bag shopping-cart"></i>
-            </div>
-            <!-- <i class="fa-solid fa-bars open-nav"></i> -->
-          </div>
-        </section>
-        <div class="progress"></div>
-      </div>
+    <header>
+      <%- include('partials/navbar') %>
     </header>
     <!-- header-end ./ -->
 
@@ -146,6 +59,7 @@
               Thank you for choosing US! FOR LIKE THINGS!, for the
               checkout/payment see details below!
             </p>
+            <p style="color:red;font-size:20px;font-weight: bold;"> NOTE! THIS IS STATIC INFORMATION! NOT FULLY FUNCTIONAL YET!</p>
           </div>
         </div>
       </section>
@@ -169,32 +83,22 @@
                 <tr>
                   <td>
                     <a href="#"><i class="uil uil-times-circle"></i></a>
-                  </td>
-                  <td><img src="img/products/quantum.png" alt="Quantum" /></td>
+                  </td><td><img src="img/products/armani.png" alt="Quantum" /></td>
                   <td>Quantum Watch</td>
-                  <td>139.00&euro;</td>
+                  <td>139.00& scrap</Scrap>
                   <td><input type="number" value="1" max="10" /></td>
-                  <td>139.00&euro;</td>
+                  <td>139.00& scrap</td>
                 </tr>
-                <tr>
-                  <td>
-                    <a href="#"><i class="uil uil-times-circle"></i></a>
-                  </td>
-                  <td><img src="img/products/quantum2.png" alt="Quantum" /></td>
-                  <td>Quantum Watch</td>
-                  <td>160.00&euro;</td>
-                  <td><input type="number" value="3" max="10" /></td>
-                  <td>160.00&euro;</td>
-                </tr>
+               
                 <tr>
                   <td>
                     <a href="#"><i class="uil uil-times-circle"></i></a>
                   </td>
                   <td><img src="img/products/armani.png" alt="Armani" /></td>
                   <td>Armani Watch</td>
-                  <td>206.00&euro;</td>
+                  <td>206.00& scrap</td>
                   <td><input type="number" value="4" max="10" /></td>
-                  <td>206.00&euro;</td>
+                  <td>206.00& scrap</td>
                 </tr>
                 <tr>
                   <td>
@@ -202,9 +106,9 @@
                   </td>
                   <td><img src="img/products/quantum.png" alt="Quantum" /></td>
                   <td>Quantum Watch</td>
-                  <td>139.00&euro;</td>
+                  <td>139.00& scrap</td>
                   <td><input type="number" value="8" max="10" /></td>
-                  <td>139.00&euro;</td>
+                  <td>139.00& scrap</td>
                 </tr>
                 <tr>
                   <td>
@@ -212,9 +116,9 @@
                   </td>
                   <td><img src="img/products/citizen.png" alt="Citizen" /></td>
                   <td>Citizen Watch</td>
-                  <td>180.00&euro;</td>
+                  <td>180.00& scrap</td>
                   <td><input type="number" value="10" max="10" /></td>
-                  <td>180.00&euro;</td>
+                  <td>180.00& scrap</td>
                 </tr>
               </tbody>
             </table>
@@ -237,7 +141,7 @@
               <table class="table table-striped">
                 <tr>
                   <td>Cart Subtotal</td>
-                  <td>824&euro;</td>
+                  <td>824& scrap</td>
                 </tr>
                 <tr>
                   <td>Shipping</td>
@@ -245,7 +149,7 @@
                 </tr>
                 <tr>
                   <td><strong>Total</strong></td>
-                  <td><strong>824&euro;</strong></td>
+                  <td><strong>824& scrap</strong></td>
                 </tr>
               </table>
               <button class="btn-normal">Proceed to Checkout</button>
@@ -314,23 +218,25 @@
             </div>
           </div>
 
+         
           <div class="col-md-6 col-lg-2 contact2">
             <h4>About</h4>
-            <a href="./about.html">About Us</a>
+            <a href="#">About Us</a>
             <a href="#">Delivery Information</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms&amp;Conditions</a>
-            <a href="./contact.html">Contact Us</a>
+            <a href="#">Contact Us</a>
           </div>
 
           <div class="col-md-6 col-lg-2 contact3">
             <h4>My Account</h4>
-            <a href="./sign-in.html">Sign In</a>
+            <a href="#">Sign In</a>
             <a href="#">View Cart</a>
             <a href="#">My Wishlist</a>
             <a href="#">My Order</a>
-            <a href="./help.html">Help?</a>
+            <a href="#">Help?</a>
           </div>
+
 
           <div class="col-lg-4 col-md-6 install">
             <h4>Install App</h4>
@@ -365,7 +271,7 @@
         <i class="uil uil-angle-up"></i>
       </button>
 
-      <div class="cookie">
+      <!-- <div class="cookie">
         <div
           class="welcome-alert alert alert-dismissible fade show"
           role="alert"
@@ -389,7 +295,7 @@
         <div class="btn-actions">
           <button class="item">I Understand</button>
         </div>
-      </div>
+      </div> -->
     </footer>
     <!-- footer-end ./ -->
 

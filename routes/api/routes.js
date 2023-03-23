@@ -194,22 +194,23 @@ router.get("/api/admin-items", function (req, res) {
 
 // @route GET /api/items
 // @desc  Renders The Items
-router.get("/api/items", function (req, res) {
-  console.log("TEST HITTING HERE: ");
-  Item.find()
-    .sort({ date: -1 })
-    .then((items) => {
-      if (items) {
-        console.log("No Items!");
-        req.flash("error", "NO Items!");
-        return res.redirect("/");
-      }
-      return res.render("products", {
-        items: items,
-        msg: "Grabbed Available Items!",
-      });
-    });
-});
+// router.get("/api/items", function (req, res) {
+//   // console.log("TEST HITTING HERE: ");
+//   Item.find()
+//     .sort({ date: -1 })
+//     .then((items) => {
+//       if (items) {
+//         return res.render("products", {
+//           items: items,
+//           msg: "Grabbed Available Items!",
+//         });
+//       } else {
+//         console.log("No Items!");
+//         req.flash("error", "NO Items!");
+//         return res.redirect("/");
+//       }
+//     });
+// });
 
 // @ desc    Get ALL items
 // @ route    GET api/items
@@ -387,6 +388,27 @@ router.get("/items/:id", (req, res) => {
 // router.get("/admin-test", function (req, res) {
 //   res.render("admin/admin-menu");
 // });
+
+// @route GET /admin-animation
+// @desc  Renders utilities-animation page
+router.get("/admin-reg-render", function (req, res) {
+  if (req.session.superuser_id) {
+    // MUST ADD QUERRY IF USER NAME DOESN EXIST AND/OR STORE IT IN SESSION!
+
+    const tempUser = {
+      name: req.session.superuser_name,
+      _id: req.session.superuser_id,
+    };
+    req.flash("success", "YOU ARE THE ONE NEO!");
+    res.render("admin/admin-menu", {
+      superuser: tempUser,
+    });
+  } else {
+    console.log("YOU ARE NOT THE ONE!");
+    req.flash("error", "YOU ARE NOT THE ONE!");
+    res.redirect("/");
+  }
+});
 
 // @route POST /admin-logout
 // @desc  Logout A SUPERUSER ADMIN
@@ -730,10 +752,12 @@ router.post("/admin-login", (req, res) => {
                 localStorage.setItem("superuser_name", superuser.name);
                 localStorage.setItem("superuser_id", superuser._id);
 
-                return res.render("admin/admin-menu", {
-                  superuser: superuser,
-                  msg: "Successfully Logged in! Welcome Back!",
-                });
+                // res.render("admin-menu", {
+                //   superuser: superuser,
+                //   msg: "Successfully Logged in! Welcome Back!",
+                // });
+                req.flash("success", "Successfully Logged in!");
+                res.redirect("/admin-menu");
                 // console.log("HITTING HERE! 2  ADmin login what in session: "+ req.session.superuser_name);
                 // console.log("HITTING HERE! 2  ADmin login what in session: "+ req.session.superuser_id);
               } else {
@@ -834,12 +858,18 @@ router.post("/admin-register", (req, res) => {
                 // Add ID Into Session:
                 req.session.superuser_id = newSuperUser._id;
                 req.session.superuser_name = newSuperUser.name;
+
+                localStorage.setItem("superuser_id", newSuperUser._id);
+                localStorage.setItem("superuser_name", newSuperUser.name);
+                // localStorage.setItem("user_nickname", newSuperUser.nickname);
+
                 // Send Email Function with nodemailer:
                 // Render Admin Control Panel with New Super User info:
-                res.render("/admin-menu", {
-                  superuser: newSuperUser,
-                  msg: `YOU ARE THE ONE!`,
-                });
+                // res.render("/admin/admin-menu", {
+                //   superuser: newSuperUser,
+                //   msg: `YOU ARE THE ONE!`,
+                // });
+                res.redirect("admin-reg-render");
               }
             });
           });
@@ -873,7 +903,8 @@ router.get("/success", function (req, res) {
 // @desc  Logout A User
 router.post("/logout", (req, res) => {
   console.log("HITTING LOGOUT AREA! ");
-  req.session.user_id = null;
+  req.session = null;
+  localStorage.clear();
   res.redirect("/");
 });
 
@@ -881,7 +912,7 @@ router.post("/logout", (req, res) => {
 // @desc  Registers A New User
 router.post("/register", (req, res) => {
   // Destructuring, Pulling the values out from request.body
-  const { emailLog, passwordLog, userName } = req.body;
+  const { emailLog, passwordLog, userName, nickname } = req.body;
   let lowerEmail = emailLog.toLowerCase();
   // console.log("email lower case", lowerEmail);
   // console.log("Data being grabbed is :", req.body);
@@ -897,6 +928,10 @@ router.post("/register", (req, res) => {
   } else if (!emailREGEX.test(emailLog)) {
     console.log("Invalid Email");
     req.flash("error", "Please Enter A Valid Email");
+    res.redirect("/register-page");
+  } else if (!nickname || nickname === "") {
+    console.log("Invalid Nickname");
+    req.flash("error", "Please Enter A Nickname");
     res.redirect("/register-page");
   }
   // else if(!gender || gender === "" || gender === "default"){
@@ -940,6 +975,8 @@ router.post("/register", (req, res) => {
         name: userName,
         email: lowerEmail,
         password: passwordLog,
+        nickname: nickname,
+        img: "../uploads/default-photo.jpg",
       });
       // Create salt and hashed password utilizing bcrypt:
       bcrypt.genSalt(10, (err, salt) => {
@@ -959,6 +996,13 @@ router.post("/register", (req, res) => {
           console.log("success");
           // Add ID Into Session:
           req.session.user_id = newUser._id;
+          req.session.user_name = newUser.name;
+          req.session.user_nickname = newUser.nickname;
+
+          localStorage.setItem("user_id", newUser._id);
+          localStorage.setItem("user_name", newUser.name);
+          localStorage.setItem("user_nickname", newUser.nickname);
+
           // Send Email Function with nodemailer:
           // sendEmail(email, name) HERE! MOTE! SENDING EMAIL CALL! :
           // Render Profile page with New user info:
@@ -991,8 +1035,56 @@ router.get("/blog-page", function (req, res) {
 
 // @route GET /products
 // @desc  Renders Products
-router.get("/products", function (req, res) {
-  res.render("products");
+router.get("/api/products", function (req, res) {
+  if (req.session.user_id) {
+    const tempUser = {
+      name: req.session.user_name,
+      _id: req.session.user_id,
+    };
+    Item.find()
+      .sort({ created_at: -1 })
+      .then((items) => {
+        if (items && items.length > 0) {
+          console.log("FoundItems!");
+          // req.flash("error", "Found Items!");
+          res.render("products", {
+            items: items,
+            msg: "Grabbed Available Items!",
+            user: tempUser,
+          });
+        } else {
+          console.log("No Items!");
+          req.flash("error", "There Are NO Items!");
+          res.render("products", {
+            items: null,
+            user: tempUser,
+          });
+        }
+      });
+  } else {
+    console.log("YOU ARE NOT LOGGED IN!");
+    req.flash("error", "NOTE - MUST BE LOGGED IN TO PURCHASE!");
+    Item.find()
+      .sort({ created_at: -1 })
+      .then((items) => {
+        if (items && items.length > 0) {
+          console.log("FoundItems!");
+          // req.flash("error", "Found Items!");
+          res.render("products", {
+            items: items,
+            msg: "Grabbed Available Items!",
+            user: null,
+          });
+        } else {
+          console.log("No Items!");
+          req.flash("error", "There Are NO Items!");
+          res.render("products", {
+            items: null,
+            user: null,
+          });
+        }
+      });
+  }
 });
 
 // @route GET /single-product
@@ -1012,7 +1104,6 @@ router.get("/profile", function (req, res) {
 router.get("/payment-page", function (req, res) {
   res.render("payment");
 });
-
 // @route GET /register-page
 // @desc  Renders The Register Page
 router.get("/register-page", (req, res) => {
@@ -1276,13 +1367,21 @@ router.post("/login", (req, res) => {
       } else {
         if (user) {
           // User was found
-          console.log("found user with email " + user.email);
+          console.log("found user with email " + user.email + " Logging in...");
           // Comparing Password with stored hash vs user input:
           bcrypt.compare(passwordLog, user.password, function (err, result) {
             if (result) {
               // If Password is a match, then throw user ID into session and route to profile page:
 
               req.session.user_id = user._id; // Throwing ID into session:
+              req.session.user_name = user.name;
+              req.session.user_nickname = user.nickname;
+              // req.session.user_image = user.image;
+              // Put Name and ID as well into local storage:
+              localStorage.setItem("user_name", user.name);
+              localStorage.setItem("user_nickname", user.nickname);
+              localStorage.setItem("user_id", user._id);
+              localStorage.setItem("user_image", user.image);
               res.render("profile", {
                 user: user,
                 msg: "Successfully Logged in! Welcome Back!",
@@ -1329,156 +1428,6 @@ router.get("/success", function (req, res) {
 //   req.session.user_id = null;
 //   res.redirect("/")
 // });
-
-// @route POST /register
-// @desc  Registers A New User
-router.post("/register", (req, res) => {
-  // Destructuring, Pulling the values out from request.body
-  const {
-    userName,
-    emailLog,
-    passwordLog,
-    password2,
-    phone,
-    zipcode,
-    nickname,
-    gender,
-    country,
-  } = req.body;
-  let lowerEmail = emailLog.toLowerCase();
-  // if(emailLog != undefined){
-  //   let lowerEmail = emailLog.toLowerCase();
-  //   console.log("TEST RESULT lowerEmail: "+ lowerEmail);
-  // }else{
-  //   let lowerEmail = "";
-  //   console.log("TEST RESULT lowerEmail: "+ lowerEmail);
-  // } // setting email input to lowercase to deture mismatches due to being case sensative:
-
-  // console.log("email lower case", lowerEmail);
-  console.log("Data being grabbed is :", req.body);
-  // Basic Validation: -------- NOTE Some fields are commented out in case we end up wanting them:
-  // if(!phone || phone === ""){
-  //   console.log("Phone Is blank")
-  //   req.flash("error", "Please Enter A Phone Number")
-  //   res.redirect("/register-page");
-  // }
-  // else if(/^\d+$/.test(phone)){
-  //   console.log("Phone number is all digits. Running check for proper length")
-  //   if(phone.length < 10 || phone.length > 10) {
-  //     console.log("Phone number is less or more than 10!")
-  //     // req.flash("error", "Please Enter A Valid Phone Number")
-  //     // res.redirect("/register-page");
-  //   }
-  // }
-  // else if(!phoneREGEX.test(phone)) {
-  //   console.log("Phone Is Invalid")
-  //   req.flash("error", "Please Enter A Valid Phone Number")
-  //   res.redirect("/register-page");
-  // }
-  // else if(!zipcode || zipcode === ""){
-  //   console.log("Zip Is blank")
-  //   req.flash("error", "Please Enter Zipcode")
-  //   res.redirect("/register-page");
-  // }
-  // else if(!zipREGEX.test(zipcode)) {
-  //   console.log("Phone Is Invalid")
-  //   req.flash("error", "Please Enter A Valid Zipcode")
-  //   res.redirect("/register-page");
-  // }
-  // else if(!nickname || nickname === ""){
-  //   console.log("Nickname Is blank")
-  //   req.flash("error", "Please Enter A Nickname")
-  //   res.redirect("/register-page");
-  // }
-  if (!userName || userName === "") {
-    console.log("Name Is blank");
-    req.flash("error", "Please Enter A Name");
-    res.redirect("/register-page");
-  } else if (!emailLog || emailLog === "") {
-    console.log("email Is blank");
-    req.flash("error", "Please Enter An Email");
-    res.redirect("/register-page");
-  } else if (!emailREGEX.test(emailLog)) {
-    console.log("Invalid Email");
-    req.flash("error", "Please Enter A Valid Email");
-    res.redirect("/register-page");
-  }
-  // else if(!gender || gender === "" || gender === "default"){
-  //   console.log("Gender Is blank")
-  //   req.flash("error", "Please Enter A Gender")
-  //   res.redirect("/register-page");
-  // }
-  else if (!passwordLog || passwordLog === "") {
-    console.log("Password Is blank");
-    req.flash("error", "Please Enter A Password");
-    res.redirect("/register-page");
-    // }else if(password != password2){
-    //   console.log("Passwords DO NOt match!")
-    //   req.flash("error", "Passwords Do not Match!")
-    //   res.redirect("/register-page");
-    // }else{
-  } else {
-    // ENd of validation ------------
-    User.findOne({ email: emailLog }).then((user) => {
-      if (user) {
-        console.log("User Already Exists!");
-        req.flash("error", "User Already Exists!");
-        return res.redirect("/");
-      }
-      // Credits function:
-      credits = genCredits();
-
-      // Create new User With generated Premium credits and declaring default photo path for img:
-      // const newUser = new User({
-      //   name: userName,
-      //   email: lowerEmail,
-      //   zipcode,
-      //   nickname,
-      //   phone,
-      //   gender,
-      //   country,
-      //   password: passwordLog,
-      //   premium_credits: credits,
-      //   img: "../uploads/default-photo.jpg"
-      // })
-      const newUser = new User({
-        name: userName,
-        email: lowerEmail,
-        password: passwordLog,
-        img: "../uploads/default-photo.jpg",
-        // img: "../../uploads/default-photo.jpg",
-        // img: "/uploads/default-photo.jpg",
-      });
-      // Create salt and hashed password utilizing bcrypt:
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          // console.log("HASHED Password", hash);
-          newUser.save((err) => {
-            // Save new User into DB:
-            if (err) {
-              // If error:
-              console.log("User Already Exists!");
-              req.flash("error", "User Already Exists");
-              return res.redirect("/");
-            }
-          });
-          console.log("success");
-          // Add ID Into Session:
-          req.session.user_id = newUser._id;
-          // Send Email Function with nodemailer:
-          // sendEmail(email, name) HERE! MOTE! SENDING EMAIL CALL! :
-          // Render Profile page with New user info:
-          res.render("profile", {
-            user: newUser,
-            msg: "Account Created! Please Check Your Email!",
-          });
-        });
-      });
-    });
-  }
-});
 
 //  FUNCTION TO SEND EMAIL TO NEW USER!  - CURRENTLY BREAKING AND/OR GETTING HUND! :D
 // Helper function to send email to users:

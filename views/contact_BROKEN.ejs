@@ -33,17 +33,21 @@
       rel="stylesheet"
       href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
     />
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <%- include('partials/navbar') %>
+    
+
+    
+    </header>
     <!-- header-end ./ -->
 
     <main class="wrapper">
+      <%- include('partials/navbar') %>
       <section class="hero contact-hero">
         <div class="container-fluid">
           <div class="row">
-            <h2>#Contact Us</h2>
+            <h2>Contact Us</h2>
             <p>
               For any request, clarification or criticism you can contact us
               directly by phone or you can write to us by e-mail by filling out
@@ -131,7 +135,7 @@
 
             <div class="col-md-6 col-lg-6 people">
               <div>
-                <img src="/img/favicon.png" alt="Ora" />
+                <img src="img/favicon.png" alt="Ora" />
                 <p>
                   <span>John Doe</span> Ceo-Founder & Chef <br />
                   Phone: +383 44 123 456 <br />
@@ -139,7 +143,7 @@
                 </p>
               </div>
               <div>
-                <img src="/img/favicon.png" alt="Ora" />
+                <img src="img/favicon.png" alt="Ora" />
                 <p>
                   <span>Jim Smith</span> Senior Manager <br />
                   Phone: +383 44 123 456 <br />
@@ -147,7 +151,7 @@
                 </p>
               </div>
               <div>
-                <img src="/img/favicon.png" alt="Ora" />
+                <img src="img/favicon.png" alt="Ora" />
                 <p>
                   <span>Philipp Smith</span> Organisatory <br />
                   Phone: +383 44 123 456 <br />
@@ -181,105 +185,13 @@
         </div>
       </section>
     </main>
-
     <!-- main-body-end ./ -->
-    <p
-      style="
-        color: red;
-        text-align: center;
-        width: 100%;
-        margin: 0 auto;
-        font-weight: bold;
-        font-size: 20px;
-      "
-    >
-      NOTE FOOTER NOT DYNAMIC/ASYNCRONOUS CURRENTLY, LINKS WILL NOT WORK FOR
-      THIS PAGE- WILL BE FIXED
-    </p>
+
     <footer class="footer">
-      <div class="container-footer">
-        <div class="row">
-          <div class="col-lg-4 col-md-6 contact1">
-            <img src="/img/light-logo.png" class="footer-logo" alt="APP Logo" />
-            <h4>Contact</h4>
-            <p>
-              <span class="fw-bold">Address:</span> Rr. Ferid Curri, 10000,
-              Prishtina
-            </p>
-            <p><span class="fw-bold">Tel:</span> +383 (0) 49 77 80 80</p>
-            <p>
-              <span class="fw-bold">Open:</span> 07:00 - 22:00, Monday - Friday
-            </p>
-            <div class="social-fllw">
-              <h4>Follow us</h4>
-              <div
-                class="icons d-flex justify-content-between align-items-center"
-              >
-                <a href="https://m.facebook.com/page">
-                  <i class="uil uil-facebook"></i>
-                </a>
-                <a href="https://instagram.com/page">
-                  <i class="uil uil-instagram"></i>
-                </a>
-                <a href="https://twitter.com/page">
-                  <i class="uil uil-twitter-alt"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-2 contact2">
-            <h4>About</h4>
-            <a href="/about-page">About Us</a>
-            <a href="#">Delivery Information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms&amp;Conditions</a>
-            <a href="/contact-page">Contact Us</a>
-          </div>
-
-          <div class="col-md-6 col-lg-2 contact3">
-            <h4>My Account</h4>
-            <a href="./sign-in.html">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">My Order</a>
-            <a href="./help.html">Help?</a>
-          </div>
-
-          <div class="col-lg-4 col-md-6 install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play</p>
-            <div class="download-on">
-              <img src="img/buttons/app-store.png" alt="" />
-              <img src="img/buttons/google-play.png" alt="" />
-            </div>
-            <p>Secured Payment Getaway</p>
-            <div class="payment">
-              <i class="uil uil-master-card"></i>
-              <i class="uil uil-paypal"></i>
-              <i class="uil uil-transaction"></i>
-              <i class="uil uil-bill"></i>
-              <i class="uil uil-credit-card-search"></i>
-              <i class="uil uil-university"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="copyright">
-          <p class="copy">&copy;<span id="year">. My Web Name.</span></p>
-          <a href="https://BONERSOUP.COM" class="go-to-link">
-            <p class="by">By:</p>
-            <span id="author">BONERSOUP!</span>
-          </a>
-        </div>
-      </div>
-
-      <button class="back-to-top hidden">
-        <i class="uil uil-angle-up"></i>
-      </button>
+      
+      <%- include('partials/footer') %>
+      
     </footer>
-
     <!-- footer-end ./ -->
 
     <script
@@ -287,6 +199,6 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-    <script src="/js/script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
