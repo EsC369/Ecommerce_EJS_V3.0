@@ -154,10 +154,8 @@
         <h6 class="dropdown-header">Message Center</h6>
         <a class="dropdown-item d-flex align-items-center" href="#">
           <div class="dropdown-list-image mr-3">
-            <img
-              class="rounded-circle"
-              src="img/undraw_profile_1.svg"
-              alt="..."
+            
+              <div class="container" style="width:60%;height:80%;"><img src="<%= superuser.img != 'undefined' ? superuser.img : '' %>" class="img-fluid img-responsive avatar responsive" alt="Avatar"></div>
             />
             <div class="status-indicator bg-success"></div>
           </div>
@@ -241,12 +239,14 @@
       >
         <span class="mr-2 d-none d-lg-inline text-gray-600 small">
           <!-- <%= localStorage.superuser_name %> -->
-          <%= localStorage.superuser_name != 'undefined' ?
-          localStorage.superuser_name : 'FAILED TO GRAB NAME' %>
+          
         </span>
 
-        <img class="img-profile rounded-circle" src="img/undraw_profile.svg" />
-      </a>
+         <img class="img-profile rounded-circle"
+                <% var test2 = "/"+ superuser.img %>  %>
+                  src="<%= test2 != 'undefined' ? test2 : '' %>" />
+                  
+              </a>
       <!-- Dropdown - User Information -->
       <div
         class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

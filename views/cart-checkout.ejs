@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>░░💯👀💯░░</title>
+    <meta name="author" content="EsC1337 | Ryan Smith" />
+    <meta
+      name="description"
+      content="COMPANY NAME | SIGNIFICANT CONTENT TO APP"
+    />
+    <meta
+      name="keywords"
+      content="ANY KEY WORDS AND ALL KEYWORDS FOR ANYING OF RELEVANCY OF SAID APP"
+    />
+    <link rel="icon" href="img/favicon.png" sizes="32x32" />
+    <link rel="icon" href="img/favicon.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/img/favicon.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk  t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+    <style>* {
+      font-family: "Helvetica Neue", Helvetica;
+      font-size: 15px;
+      font-variant: normal;
+      padding: 0;
+      margin: 0;
+    }
+    
+
+   
+    
+    card-form {
+      width: 480px;
+      margin: 20px 0;
+    }
+    
+    .group {
+      background: white;
+      box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    
+    label {
+      position: relative;
+      color: #8898AA;
+      font-weight: 300;
+      height: 40px;
+      line-height: 40px;
+      display: flex;
+      flex-direction: row;
+    }
+    
+    .group label:not(:last-child) {
+      border-bottom: 1px solid #F0F5FA;
+    }
+    
+    label > span {
+      width: 120px;
+      text-align: right;
+      margin-right: 30px;
+    }
+    
+    .field {
+      background: transparent;
+      font-weight: 300;
+      border: 0;
+      color: #31325F;
+      outline: none;
+      flex: 1;
+      padding-right: 10px;
+      padding-left: 10px;
+      cursor: text;
+    }
+    
+    .field::-webkit-input-placeholder {
+      color: #CFD7E0;
+    }
+    
+    .field::-moz-placeholder {
+      color: #CFD7E0;
+    }
+    
+    button {
+      float: left;
+      display: block;
+      background: #666EE8;
+      color: white;
+      box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.10), 0 3px 6px 0 rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      border: 0;
+      margin-top: 20px;
+      font-size: 15px;
+      font-weight: 400;
+      width: 100%;
+      height: 40px;
+      line-height: 38px;
+      outline: none;
+    }
+    
+    button:focus {
+      background: #555ABF;
+    }
+    
+    button:active {
+      background: #43458B;
+    }
+    
+    .outcome {
+      float: left;
+      width: 100%;
+      padding-top: 8px;
+      min-height: 24px;
+      text-align: center;
+    }
+    
+    .success,
+    .error {
+      display: none;
+      font-size: 13px;
+    }
+    
+    .success.visible,
+    .error.visible {
+      display: inline;
+    }
+    
+    .error {
+      color: #E4584C;
+    }
+    
+    .success {
+      color: #666EE8;
+    }
+    
+    .success .token {
+      font-weight: 500;
+      font-size: 13px;
+    }
+    </style>
+    
+    <!-- <script src="https://checkout.stripe.com/checkout.js"></script> -->
+  <!-- <script>
+    var stripePublicKey =  "<=% stripePublicKey %> "
+  </script> -->
+  <script src="https://js.stripe.com/v3/"></script>
+
+ 
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>  
+   
+    <header>
+    
+    </header>
+    <!-- header-end ./ -->
+
+    <main class="wrapper">
+      <% JSON.stringify(messages) %>
+        <% if(messages.error) { %>
+          <div class="alert alert-danger">
+          <% for (var x of messages.error) { %>
+            <h6 align="center" style="color:red;"><%= x %></h6>
+          </div>
+          <% } %>
+        <% } %>
+        
+      <section class="hero blog-hero">
+        <div class="container-fluid">
+          <div class="row">
+            <h2>Shopping Cart</h2>
+            <p>
+              Thank you for choosing US! FOR LIKE THINGS!, for the
+              checkout/payment see details below!
+            </p>
+            <p style="color:red;font-size:20px;font-weight: bold;"> NOTE! THIS IS STATIC INFORMATION! NOT FULLY FUNCTIONAL YET!</p>
+          </div>
+        </div>
+      </section>
+      <!-- hero ./ -->
+
+      <section class="cart">
+        <center> <h2>Your Current Cart:</h2> </center>
+        <div  class="container">
+          
+        <% var grandTotal = 0; %>
+       
+          <% for(var i=0; i<cart.products.length; i++) { %>
+            <% var grandTotal = grandTotal + (cart.products[i].price * cart.products[i].desiredQuantity) %>
+            <% var grandTotal = grandTotal %>
+            
+          <div class="row">
+            
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <td>Image</td>
+                  <td>Product</td>
+                  <td>Price</td>
+                  <td>Quantity</td>
+                  <td>Subtotal</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+               
+                  <td><img src="<%= '/'+ cart.products[i].image != 'undefined' ? '/'+ cart.products[i].image : '' %>" alt="OOPS, Couldnt grab image.." /></td>
+                  <td><%- cart.products[i].name %> </td>
+                  <td><%- cart.products[i].price %> $</td>
+                    <% var test =  cart.products[i].desiredQuantity %>
+                  <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= cart.products[i].desiredQuantity %> 
+                    <!-- <br> <input id="desiredQuantity" name="desiredQuantity"  type="number" value="1" max="10" /></td> -->
+                  <td> SUb TOTAL: <%= (cart.products[i].price * cart.products[i].desiredQuantity) %> $</td>
+                </tr>
+               
+               
+               
+              </tbody>
+            </table>
+            
+          </div>
+          <% } %>
+         
+            <br>
+            <center> <h1 style="color:red;font-weight:bold;">Grand Total: <%= grandTotal %></h1></center>
+          
+            <br>
+
+        </div>
+      </section>
+      <hr>
+
+      <section>
+        <div class="container">
+          <center> <h1>Shipping Information</h1><hr>
+            <br><br>
+
+       
+          
+           
+           
+
+
+  <form action="/api/carts/create-checkout-session" method="POST" class="card-form">
+    
+    <div class="group">
+   
+      
+      <!-- <label>
+        <span>Buyers Email</span>
+        <input id="address-line1" name="email" class="field"  pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" placeholder="YOUR Email" required />
+      </label> -->
+      <input id="" name="email" hidden class="field" value="<%= user.user_email %>">
+      <hr>
+      <br>
+      <h3> Enter Where You're Shipping To Below</h3>
+      <hr>
+      <label>
+        <span>First name</span>
+        <input id="first-name" name="first_name" class="field" placeholder="First Name" required/>
+      </label>
+      <label>
+        <span>Last name</span>
+        <input id="last-name" name="last_name" class="field" placeholder="Last Name" required/>
+      </label>
+     
+    </div>
+    <div class="group">
+      <label>
+        <span>Address</span>
+        <input id="address-line1" name="address_line1" class="field" placeholder="Address" required/>
+      </label>
+      <label>
+        <span>Address (cont.)</span>
+        <input id="address-line2" name="address_line2" class="field" placeholder="" />
+      </label>
+      <label>
+        <span>City</span>
+        <input id="address-city" name="address_city" class="field" placeholder="City" required/>
+      </label>
+      <label>
+        <span>State</span>
+        <input id="address-state" name="address_state" class="field" placeholder="State" required />
+      </label>
+      <label>
+        <span>ZIP</span>
+        <input id="address-zip" name="address_zip" class="field" placeholder="Zipcode" required/>
+      </label>
+      <label>
+        <span>Country</span>
+        <select name="address-country" id="address_country" class="field" required>
+          <option value="IN">India</option>
+          <option value="SG" selected>Singapore</option>
+          <option value="USA">America</option>
+          <option value="China" selected>CHINA</option>
+        </select>
+      </label>
+    </div>
+    <script src="https://js.stripe.com/v3/"></script>
+
+             <!-- Use action="/create-checkout-session.php" if your server is PHP based. -->
+ 
+      <button type="submit">Checkout</button>
+   
+    </div>
+  </form>
+
+
+
+  <!-- HERE IS WHERE THE CARD CUTS OFF! -->
+           
+
+
+            <!-- <form action="/api/carts/create-checkout-session" method="POST" id="payment-form">
+              <div class="form-row">
+                <label for="card-element">
+                  Credit or debit card
+                </label>
+                
+                <input type="text" name="testName"/>
+               
+                <div id="card-errors" role="alert"></div>
+              </div>
+              <input type="submit" class="submit" value="Submit Payment">
+            </form> -->
+            
+         
+            </center>
+              <br><br><br><br><br><hr>
+
+
+        </div>
+      </section>
+
+      
+
+      <!-- NEWS LETTER SECTION -->
+      <section class="newsletter">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6 col-lg-8">
+              <div class="newstext">
+                <h4>Sign Up For Newsletters!</h4>
+                <p>
+                  Get E-Mail updates about our Latest Products and
+                  <span>special offers</span>.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="n-form">
+                <input type="text" placeholder="Your E-Mail Address..." />
+                <button class="btn-normal">Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- main-body-end ./ -->
+
+    <footer class="footer">
+      <div class="container-footer">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 contact1">
+            <img
+              src="img/light-logo.png"
+              class="footer-logo"
+              alt="Ora - Logo"
+            />
+            <h4>Contact</h4>
+            <p>
+              <span class="fw-bold">Address:</span> Rr. Ferid Curri, 10000,
+              Prishtina
+            </p>
+            <p><span class="fw-bold">Tel:</span> +383 (0) 49 77 80 80</p>
+            <p>
+              <span class="fw-bold">Open:</span> 07:00 - 22:00, Monday - Friday
+            </p>
+            <div class="social-fllw">
+              <h4>Follow us</h4>
+              <div
+                class="icons d-flex justify-content-between align-items-center"
+              >
+                <a href="https://m.facebook.com/page">
+                  <i class="uil uil-facebook"></i>
+                </a>
+                <a href="https://instagram.com/page">
+                  <i class="uil uil-instagram"></i>
+                </a>
+                <a href="https://twitter.com/page">
+                  <i class="uil uil-twitter-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+         
+          <div class="col-md-6 col-lg-2 contact2">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms&amp;Conditions</a>
+            <a href="#">Contact Us</a>
+          </div>
+
+          <div class="col-md-6 col-lg-2 contact3">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">My Order</a>
+            <a href="#">Help?</a>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="download-on">
+              <img src="img/buttons/app-store.png" alt="" />
+              <img src="img/buttons/google-play.png" alt="" />
+            </div>
+            <p>Secured Payment Getaway</p>
+            <div class="payment">
+              <i class="uil uil-master-card"></i>
+              <i class="uil uil-paypal"></i>
+              <i class="uil uil-transaction"></i>
+              <i class="uil uil-bill"></i>
+              <i class="uil uil-credit-card-search"></i>
+              <i class="uil uil-university"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="copyright">
+          <p class="copy">&copy;<span id="year">. My Web Name.</span></p>
+          <a href="https://my-site.com/" class="go-to-link">
+            <p class="by">By:</p>
+            <span id="author">Web Studio</span>
+          </a>
+        </div>
+      </div>
+
+      <button class="back-to-top hidden">
+        <i class="uil uil-angle-up"></i>
+      </button>
+
+      <!-- <div class="cookie">
+        <div
+          class="welcome-alert alert alert-dismissible fade show"
+          role="alert"
+        >
+          <section class="ms">
+            <strong>Hello, Welcome to Ora-Ks.com!</strong>
+            <h1 id="author">By: <strong>Web Studio</strong></h1>
+          </section>
+          <button type="button" class="btn-close welcome"></button>
+        </div>
+        <div>
+          <img src="img/other/cookie.png" alt="Cookie Png" />
+        </div>
+        <div class="content">
+          <h1>Cookies Content</h1>
+          <p>
+            We use Cookies to ensure you get the best experience while shooping!
+          </p>
+          <a href="#" class="item">Learn more</a>
+        </div>
+        <div class="btn-actions">
+          <button class="item">I Understand</button>
+        </div>
+      </div> -->
+    </footer>
+    <!-- footer-end ./ -->
+
+
+  </body>
+
+  <script>var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+    var elements = stripe.elements();
+ 
+    var card = elements.create('card', {
+      hidePostalCode: true,
+      style: {
+        base: {
+          iconColor: '#666EE8',
+          color: '#31325F',
+          lineHeight: '40px',
+          fontWeight: 300,
+          fontFamily: 'Helvetica Neue',
+          fontSize: '15px',
+    
+          '::placeholder': {
+            color: '#CFD7E0',
+          },
+        },
+      }
+    });
+    card.mount('#card-element');
+    </script>
+
+  
+  <!-- <script>var stripe = Stripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+    var elements = stripe.elements();
+    
+    var card = elements.create('card', {
+      hidePostalCode: true,
+      style: {
+        base: {
+          iconColor: '#666EE8',
+          color: '#31325F',
+          lineHeight: '40px',
+          fontWeight: 300,
+          fontFamily: 'Helvetica Neue',
+          fontSize: '15px',
+    
+          '::placeholder': {
+            color: '#CFD7E0',
+          },
+        },
+      }
+    });
+    card.mount('#card-element');
+    
+    function setOutcome(result) {
+      var successElement = document.querySelector('.success');
+      var errorElement = document.querySelector('.error');
+      successElement.classList.remove('visible');
+      errorElement.classList.remove('visible');
+    
+      if (result.token) {
+        // In this example, we're simply displaying the token
+        successElement.querySelector('.token').textContent = result.token.id;
+        successElement.classList.add('visible');
+    
+        // In a real integration, you'd submit the form with the token to your backend server
+        //var form = document.querySelector('form');
+        //form.querySelector('input[name="token"]').setAttribute('value', result.token.id);
+        //form.submit();
+      } else if (result.error) {
+        errorElement.textContent = result.error.message;
+        errorElement.classList.add('visible');
+      }
+    }
+    
+    card.on('change', function(event) {
+      setOutcome(event);
+    });
+    
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var options = {
+        name: document.getElementById('first-name').value + " " + document.getElementById('last-name').value,
+        address_line1: document.getElementById('address_line1').value,
+        address_line2: document.getElementById('address_line2').value,
+        address_city: document.getElementById('address_city').value,
+        address_state: document.getElementById('address_state').value,
+        address_zip: document.getElementById('address_zip').value,
+        address_country: document.getElementById('address_country').value,
+      };
+      stripe.createToken(card, options).then(setOutcome);
+    });
+    </script> -->
+  <script src="https://js.stripe.com/v3/"></script>
+  
+  
+</html>

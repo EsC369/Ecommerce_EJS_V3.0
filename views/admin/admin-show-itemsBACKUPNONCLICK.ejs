@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>░░💯👀💯░░</title>
+    <meta name="description" conten="ORA - Watches &amp; Jewelry | Single - Product">
+    <meta name="author" content="Author Name">
+    <meta name="keywords" content="Or&euml; Dore, Syze, Bizhuteri, Aksesore, Outlet etc..." />
+    <link rel="icon" href="img/favicon.png" sizes="32x32" />
+    <link rel="icon" href="img/favicon.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/img/favicon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>ADMIN PANEL</title>
+
+    <!-- Custom fonts for this template-->
+    <link
+      href="/vendor/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet"
+    />
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet" />
+    <style>
+      img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+    </style>
+  </head>
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <%- include('admin-partials/sidebar') %>
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <%- include('admin-partials/admin-navbar', {superuser}) %>
+        <div id="content">
+
+          <!-- Topbar -->
+
+         
+
+          <center>
+            <% JSON.stringify(messages) %> <% if(messages.error) { %>
+            <div class="alert alert-danger">
+              <% for (var x of messages.error) { %>
+              <h6 align="center" style="color: red"><%= x %></h6>
+            </div>
+            <% } %> <% } %>
+          </center>
+          <center>
+            <% JSON.stringify(messages) %> <% if(messages.success) { %>
+            <div class="alert alert-success">
+              <% for (var z of messages.success) { %>
+              <h6 align="center" style="color: green"><%= z %></h6>
+            </div>
+            <% } %> <% } %>
+          </center>
+
+          <!-- Success Msg: -->
+          <center>
+            <div class="alert" role="alert">
+              <h6 style="color:green;" align="center" <%= typeof msg != 'undefined' ? msg : '' %> </h6>
+            </div>
+          </center>
+        
+
+          <section class="products pm">
+            <div class="container">
+              
+        
+              
+    
+              <div class="row justify-content-center">
+                
+                <div class="col-md-8">
+                  <article class="title text-center">
+                    <h2 class="title-sec">Products</h2>
+                    <p class="sub-title">
+                      Latest Products <i class="uil uil-list-ui-alt"></i
+                      ><i class="uil uil-watch-alt"></i>
+                    </p>
+                  </article>
+                  
+                  <hr style="color:red;">
+
+                </div>
+              </div>
+              
+              <div class="row" style="text-align: center;"> 
+                <% for(var i=0; i<items.length; i++) { %>
+                <div class="col-md-6 col-lg-4">
+    
+    
+                  
+                  
+                  <div class="product-item discount">
+    
+    
+                    <h1><%= items[i].name %></h1>
+    
+                    <div class="product-item-inner">
+                      <span class="discount">-25%</span>
+                      <a href="./products/product-details.html" class="link">
+                        <figure class="img-box">
+                          <!-- <div class="container"><img src="<%= items[i].image != 'undefined' ? items[i].image : '' %>" class="img-fluid img-responsive avatar responsive" alt="Avatar"></div> -->
+                          <img src="/img/products/quantum.png" alt="">
+                        </figure>
+                      </a>
+                      <div class="details">
+                        <span class="cat"
+                          ><i class="uil uil-tag-alt"></i> RAGE/span
+                        >
+                        <a href="./products/product-details.html" class="link">
+                          <h5 class="title"><%= items[i].name %></h5>
+                        </a>
+                        <div class="star">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star-half-stroke"></i>
+                          <h4>
+                            <span class="old-prc"><%= items[i].price %> $;</span><%= items[i].price %> $ ;
+                          </h4>
+                        </div>
+                        <a href="./single-products.html" class="go-to-cart"
+                          ><i class="uil uil-shopping-bag shopping-cart cart"></i
+                        ></a>
+                      </div>
+                    </div>
+    
+    
+    
+         
+                  </div>
+                  <form method="POST" action="/admin-item-update-form">
+              <input type="text" name="item_id" value="<%= items[i]._id %>" hidden>
+              <button style="margin-bottom:20px;font-size:15px;"
+                  class="btn btn-lg btn-info btn-block"
+                  type="submit">Update</button>
+            </form>
+            
+            <!-- <a href="url_to_delete" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a> -->
+            <form method="POST" action="/api/admin-delete-item">
+                <input type="text" name="item_id" value="<%= items[i]._id %>" hidden>
+                <button style="margin-bottom:20px;font-size:15px;"
+                    class="btn btn-lg btn-danger btn-block" onclick="return confirm('Are you sure you want to delete this item?');"
+                    type="submit">Delete</button>
+              </form>
+                 
+                </div>
+                <% } %>
+                <!-- products-end ./ -->
+    
+                
+                </div>
+                
+              </div>
+              
+           
+          </section>
+
+          
+
+
+        
+    
+                    
+                  
+          
+       
+      </main><!-- main-body-end ./ -->
+  
+
+
+
+
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select "Logout" below if you are ready to end your current session.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2020</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      <script src="js/script.js"></script>
+      <script>
+          var proImg = document.querySelector(".pro-img");
+          var imgCol = document.querySelectorAll(".img-sm");
+  
+          imgCol.forEach((img) => {
+              img.onclick = () => {
+                  proImg.src = img.src;
+              }
+          });
+      </script>
+  </body>
+</html>

@@ -92,9 +92,12 @@ router.get("/admin-item-form", function (req, res) {
     const tempUser = {
       name: req.session.superuser_name,
       _id: req.session.superuser_id,
+      img: req.session.superuser_img
+
     };
     res.render("admin/admin-create-item-form", {
       superuser: tempUser,
+    
     });
   } else {
     console.log("YOU ARE NOT THE ONE!");
@@ -106,14 +109,33 @@ router.get("/admin-item-form", function (req, res) {
 // @route GET /api/abmin-items
 // @desc  Renders The Items
 router.post("/api/admin-create-item", function (req, res) {
+  console.log("AHITTING ADMIN CREATE ITEM");
   if (req.session.superuser_id) {
     const tempUser = {
       name: req.session.superuser_name,
       _id: req.session.superuser_id,
+      img: req.session.superuser_img
     };
     // console.log("TEST OUT! :  "+req.body);
     const { itemName, itemDescription, itemQuantity, itemPrice, itemImage } =
       req.body;
+    if (itemName.length <= 2 || itemName.length >= 20) {
+      req.flash("error", "Title must be no more than 2 and 20 characters!");
+      return res.redirect("/api/admin-items");
+    } else {
+      console.log("ACCEPTED TITLE");
+      
+
+
+      // IN here later, add functionality to query dTAbase for all items GAin,, and pass to page render
+
+      //Grab ITEMS again.. to pass back to the
+      // res.render("admin/admin-show-items", {
+      //   superuser: tempUser,
+      //   msg: "Item Successfully Created!",
+      // });
+      // res.redirect("/api/admin-items");
+    }
     // Create item:
     // console.log("Data Grabbed: " + itemName, itemDescription, itemQuantity);
     const qtySold = 0;
@@ -132,13 +154,11 @@ router.post("/api/admin-create-item", function (req, res) {
       if (err) {
         // If error:
         console.log("Error Saving Into Databse! - Error Message: " + err);
-        req.flash(
-          "error",
-          "Error Saving Into Databse! - Error Message: " + err
-        );
+        req.flash("error", "Error Saving Into Databse!");
         return res.redirect("/api/admin-items");
       } else {
         console.log("Successfully Added Item!");
+        req.flash("success", "Created Item Successfully!");
 
         // IN here later, add functionality to query dTAbase for all items GAin,, and pass to page render
 
@@ -148,6 +168,7 @@ router.post("/api/admin-create-item", function (req, res) {
         //   msg: "Item Successfully Created!",
         // });
         res.redirect("/api/admin-items");
+        // res.render("/admin/admin-show-items", { superuser: tempUser, msg: "Successfully Created Item!" });
       }
     });
   } else {
@@ -157,6 +178,453 @@ router.post("/api/admin-create-item", function (req, res) {
   }
 });
 
+
+// @route GET /edit-profile
+// @desc  Renders The Edit profile Page
+router.get("/edit-profile", (req, res) => {
+  if (req.session.user_id) {
+    // Query DB For User by ID for current data:
+    User.findOne({ _id: req.session.user_id }, function (err, user) {
+      if (err) {
+        req.flash("error", "Must be logged in!"); // Flash error
+        res.redirect("/login-page");
+      } else {
+        // Render Edit Profile page while sending current User Data:
+        res.render("edit-profile", { user: user, msg: "Edit YOUR Profile!" });
+      }
+    });
+  } else {
+    // else User isnt loggedin or registered:
+    req.flash("error", "Must be logged in!");
+    res.redirect("/login-page");
+  }
+});
+
+// @route GET /profile
+// @desc  Renders The Profile Page
+router.get("/profile-page", (req, res) => {
+  if (req.session.user_id) {
+    // Query DB for User by ID:
+    User.findOne({ _id: req.session.user_id }, function (err, user) {
+      if (err) {
+        // If not found, User not logged in:
+        req.flash("error", "Must be logged in!"); // Flash Error msg
+        res.redirect("/login-page"); // Redirect Login page
+      } else {
+        // Else User Found, Render Profile page with user data:
+        res.render("profile", { user: user });
+      }
+    });
+  } else {
+    // else User IS NOT logged in or registered, reroute to root:
+    req.flash("error", "Must be logged in!"); // Flash error
+    res.redirect("/login-page"); // Redirect to Login page
+  }
+});
+
+// @route GET /edit-profile
+// @desc  Renders The Edit profile Page
+router.get("/edit-profile", (req, res) => {
+  if (req.session.user_id) {
+    // Query DB For User by ID for current data:
+    User.findOne({ _id: req.session.user_id }, function (err, user) {
+      if (err) {
+        req.flash("error", "Must be logged in!"); // Flash error
+        res.redirect("/login-page");
+      } else {
+        // Render Edit Profile page while sending current User Data:
+        res.render("edit-profile", { user: user, msg: "Edit YOUR Profile!" });
+      }
+    });
+  } else {
+    // else User isnt loggedin or registered:
+    req.flash("error", "Must be logged in!");
+    res.redirect("/login-page");
+  }
+});
+
+// @route POST /update-Admin-profile
+// @desc  Form To Add Extended AdminUser Info
+router.post("/update-profile", (req, res) => {
+  if (req.session.user_id) {
+    User.findOne(
+      { _id: new ObjectId(req.session.user_id) },
+      function (err, user) {
+        if (err) {
+          req.flash("error", "Must be logged in!");
+          res.redirect("/login-page");
+        } else {
+          // Destructuring, pulling data from the querried User data:
+          const { email, img, premium_credits } = user;
+          // Destructuring, pulling data from the req.body(FORM):
+          const { name, zipcode, nickname } = req.body;
+          // Creating user object for failed update:
+          const oldData = {
+            email,
+            img,
+            premium_credits,
+          };
+          // Create new object with updated User Fields:
+          const updatedUser = {
+            name,
+            email,
+            zipcode,
+            nickname,
+            premium_credits,
+            img,
+          };
+          // Simple Validations: NOTE All validations and inputs for nearly every user Field, commented out as it wasnt needed. I left incase we may want to change that
+          if (!name || name === "") {
+            console.log("Name Blank");
+            req.flash("error", "Please Enter Your Name!");
+            res.redirect("/edit-profile");
+          } else if (!nickname || nickname === "") {
+            console.log("Nickname Blank");
+            req.flash("error", "Please Enter your Nickname!");
+            res.redirect("/edit-profile");
+            // }else if(!country || country === "default"){
+            //   console.log("Country Blank")
+            //   req.flash("error", "Your Country Must Be Selected!");
+            //   res.redirect("/edit-profile");
+            // }else if(!gender || gender === "default"){
+            //   console.log("Gender Blank");
+            //   req.flash("error", "Your Gender Must Be Selected!");
+            //   res.redirect("/edit-profile");
+          } else if (!zipcode || zipcode === "") {
+            console.log("zipcode Blank");
+            req.flash("error", "Please Enter your Zipcode!");
+            res.redirect("/edit-profile");
+          } else if (!zipREGEX.test(zipcode)) {
+            console.log("Zipcode Is Invalid");
+            req.flash("error", "Please Enter A Valid Zipcode");
+            res.redirect("/edit-profile");
+          } else {
+            console.log("Updated User Info: ", updatedUser);
+            // Override current User data with new Object:
+            User.updateOne(
+              { _id: new ObjectId(req.session.user_id) },
+              { $set: updatedUser },
+              (error, result) => {
+                if (!result) {
+                  // If the result failed, then flash error and re-route to Profile page:
+                  console.log("Failed to update Profile Info.");
+                  req.flash("error", "Failed To Update Profile Info");
+                  return res.render("profile", {
+                    user: oldData,
+                    msg: "Profile Unfortunately Failed To Update",
+                  });
+                }
+                console.log("Successfully Updated!");
+                return res.render("profile", {
+                  user: updatedUser,
+                  msg: "Profile Successfully Updated! THANK YOU!",
+                });
+              }
+            );
+          }
+        }
+      }
+    );
+  }
+});
+
+// @route POST /admin-item-img
+// @desc  Uploads image to For An Item to server/local-storage
+router.post("/admin-item-img", (req, res) => {
+  console.log("hitting here admin-upload");
+  upload(req, res, (err) => {
+    if (err) {
+      // Validaition for certain image limitations: Size, And Images ONLY:
+      if (err.code === "LIMIT_FILE_SIZE") {
+        console.log("Image to big!");
+        req.flash("error", "Image Size To Big! 1 MB Maximum!");
+        res.redirect("/admin-edit-profile");
+      } else {
+        console.log("Images Only!", err);
+        req.flash("error", "Images Only!");
+        res.redirect("/admin-edit-profile");
+      }
+    } else if (req.file == undefined) {
+      console.log("hitting here under undefined");
+      req.flash("error", "No File Selected!");
+      res.redirect("/admin-edit-profile");
+    } else {
+      console.log("hitting here attempting to pull USER id from req.session: "+req.session.superuser_id);
+      // Check if user is loging in, if not re-route to root:
+      if (req.session.superuser_id) {
+        // Query by ID:
+        console.log("Found superuser, continuing");
+        const tempUser = {
+          name: req.session.superuser_name,
+          img: req.session.superuser_img,
+          _id: req.session.superuser_id
+
+        }
+      // console.log("CURRENT REQ.body!: "+ req.body.item_id, req.body.img, req.body.name, req.body.description);
+      console.log("CURRENT ITEM ID!!!! HERE!!! !: "+ req.body.item_id);
+        
+        Item.findById(req.body.item_id, (err, item) => {
+          if (err) {
+            req.flash("error", "Fields are empty");
+            return res.redirect("admin/admin-update-item-form");
+          } else {
+            // DESTRUCTURING DATA AND PULLING FROM THE REQ.BODY:
+
+            // HERE! 11-1-23 its not pulling the attributes form the item proiperly! ?  updating is working well but need to pull attributes!
+         
+            // console.log("TEST Adding to iamge: "+ toString(req.file.filename));
+            // Creating new Object Of Said Item Organized as desired to be input.
+            
+      
+            // Creating new Object Of Said Item Organized as desired to be input.
+
+            // const { name, description, quantity, price, image, qtySold } = req.body;
+            // Overwrite item:
+            const updatedItem = {
+              name: item.name,
+              description: item.description,
+              price: item.price,
+              quantity: item.quantity,
+              image: `uploads/${req.file.filename}`, // Declaring path to uploaded image:
+              qtySold: item.qtySold,
+            };
+           
+            console.log("hitting here attempting to update");
+
+            console.log("Updated new item Attempting: ", updatedItem);
+            Item.updateOne(
+              { _id: req.body.item_id },
+              { $set: updatedItem },
+              (error, result) => {
+                if (error) {
+                  // return res.status(500).send(error);
+                  console.log("Upadte Item", error);
+                  req.flash("error", "Failed to Update Item");
+                  return res.redirect("admin/admin-update-item-form");
+                }
+                console.log("Item Successfully Updated!,item is:" +updatedItem.image + "----");
+                req.flash("success", "Updated Item");
+                // return res.redirect("admin/admin-update-item-form");
+                // return res.render("admin/admin-update-item-form", {superuser:tempUser}); 
+                
+                return res.redirect("api/admin-items")
+              }
+            );
+          }
+        });
+      }
+    }
+  });
+});
+
+// @route POST /admin-upload
+// @desc  Uploads image to server/local-storage
+router.post("/admin-upload", (req, res) => {
+  console.log("hitting here admin-upload");
+  upload(req, res, (err) => {
+    if (err) {
+      // Validaition for certain image limitations: Size, And Images ONLY:
+      if (err.code === "LIMIT_FILE_SIZE") {
+        console.log("Image to big!");
+        req.flash("error", "Image Size To Big! 1 MB Maximum!");
+        res.redirect("/admin-edit-profile");
+      } else {
+        console.log("Images Only!", err);
+        req.flash("error", "Images Only!");
+        res.redirect("/admin-edit-profile");
+      }
+    } else if (req.file == undefined) {
+      console.log("hitting here under undefined");
+      req.flash("error", "No File Selected!");
+      res.redirect("/admin-edit-profile");
+    } else {
+      console.log("hitting here attempting to pull id from req.session: "+req.session.superuser_id);
+      // Check if user is loging in, if not re-route to root:
+      if (req.session.superuser_id) {
+        // Query by ID:
+        console.log("FOR THE HELL OF IT");
+        SuperUser.findOne(
+          { _id: new ObjectId(req.session.superuser_id) },
+          function (err, superuser) {
+            if (err) {
+              console.log("HITTING HERE- Error: "+ err);
+              req.flash("error", "Must be logged in!");
+              res.redirect("/admin-swordfish");
+            } else {
+              // Destructuring, pulling data from req.body:
+              // HERE 10-30W
+              console.log("SUPER USER FOUND ATTEMPTING TO GRAB DATA..")
+              const { name, email, nickname, img } = superuser;
+              // Creating new object with updated user fields:
+              const updatedUser = {
+                name, 
+                email, 
+                nickname,
+                img: `uploads/${req.file.filename}`, // Declaring path to uploaded image:
+              };
+              console.log("hitting here attempting to update");
+
+              // console.log("Updated User Image: ", updatedUser);
+              // Overriding push to Mongo db, overwritting currnt data and replacing with new updated object:
+              SuperUser.updateOne(
+                { _id: new ObjectId(req.session.superuser_id) },
+                { $set: updatedUser },
+                (error, result) => {
+                  if (error) {
+                    // return res.status(500).send(error);
+                    console.log("Failed to upload image... Error: ", error);
+                    req.flash("error", "Failed to upload image"); // FLash error:
+                    return res.redirect("/admin-edit-profile"); // Redirect Edit Profile
+                  }
+                  console.log("Successfully Updated!");
+                  // Render Profile page with updated User Info:
+                  return res.render("admin/admin-profile", {
+                    superuser: updatedUser,
+                    msg: "Image Successfully Updated!",
+                  });
+                }
+              );
+            }
+          }
+        );
+      }
+    }
+  });
+});
+
+// @route GET /admin-edit-profile
+// @desc  Renders The Edit ADmin profile Page
+router.get("/admin-edit-profile", (req, res) => {
+  if (req.session.superuser_id) {
+    // Query DB For superuser by ID for current data:
+    SuperUser.findOne({ _id: req.session.superuser_id }, function (err, superuser) {
+      if (err) {
+        req.flash("error", "Must be logged in!"); // Flash error
+        res.redirect("/login-page");
+      } else {
+        // Render Edit Profile page while sending current superuser Data:
+        res.render("admin/admin-edit-profile", { superuser: superuser, msg: "Edit YOUR Profile!" });
+      }
+    });
+  } else {
+    // else User isnt loggedin or registered:
+    req.flash("error", "Must be logged in!");
+    res.redirect("/admin-swordfish");
+
+
+    
+  }
+});
+
+// @route GET /admin-profile
+// @desc  Renders The ADmin Profile Page
+router.get("/admin-profile-page", (req, res) => {
+  if (req.session.superuser_id) {
+    // Query DB for User by ID:
+    SuperUser.findOne({ _id: req.session.superuser_id }, function (err, superuser) {
+      if (err) {
+        // If not found, superuser not logged in:
+        req.flash("error", "Must be logged in!"); // Flash Error msg
+        res.redirect("/login-page"); // Redirect Login page
+      } else {
+        // Else superuser Found, Render Profile page with superuser data:
+        res.render("admin/admin-profile", { superuser: superuser });
+      }
+    });
+  } else {
+    // else User IS NOT logged in or registered, reroute to root:
+    req.flash("error", "Must be logged in!"); // Flash error
+    res.redirect("/admin-swordfish"); // Redirect to Login page
+  }
+});
+
+// @route POST /update-admin-profile
+// @desc  Form To Add Extended superUser Info
+router.post("/admin-update-profile", (req, res) => {
+  if (req.session.superuser_id) {
+    SuperUser.findOne(
+      { _id: new ObjectId(req.session.superuser_id) },
+      function (err, superuser) {
+        if (err) {
+          req.flash("error", "Must be logged in!");
+          res.redirect("/admin-login");
+        } else {
+          // Destructuring, pulling data from the querried User data:
+          const { email, img, premium_credits } = superuser;
+          // Destructuring, pulling data from the req.body(FORM):
+          const { name, zipcode, nickname } = req.body;
+          // Creating user object for failed update:
+          const oldData = {
+            email,
+            img,
+            premium_credits,
+          };
+          // Create new object with updated User Fields:
+          const updatedUser = {
+            name,
+            email,
+            zipcode,
+            nickname,
+            premium_credits,
+            img,
+          };
+          // Simple Validations: NOTE All validations and inputs for nearly every user Field, commented out as it wasnt needed. I left incase we may want to change that
+          if (!name || name === "") {
+            console.log("Name Blank");
+            req.flash("error", "Please Enter Your Name!");
+            res.redirect("/admin-edit-profile");
+          } else if (!nickname || nickname === "") {
+            console.log("Nickname Blank");
+            req.flash("error", "Please Enter your Nickname!");
+            res.redirect("/admin-edit-profile");
+            // }else if(!country || country === "default"){
+            //   console.log("Country Blank")
+            //   req.flash("error", "Your Country Must Be Selected!");
+            //   res.redirect("/edit-profile");
+            // }else if(!gender || gender === "default"){
+            //   console.log("Gender Blank");
+            //   req.flash("error", "Your Gender Must Be Selected!");
+            //   res.redirect("/edit-profile");
+          } else if (!zipcode || zipcode === "") {
+            console.log("zipcode Blank");
+            req.flash("error", "Please Enter your Zipcode!");
+            res.redirect("/admin-edit-profile");
+          } else if (!zipREGEX.test(zipcode)) {
+            console.log("Zipcode Is Invalid");
+            req.flash("error", "Please Enter A Valid Zipcode");
+            res.redirect("/admin-edit-profile");
+          } else {
+            console.log("Updated User Info: ", updatedUser);
+            // Override current User data with new Object:
+            SuperUser.updateOne(
+              { _id: new ObjectId(req.session.superuser_id) },
+              { $set: updatedUser },
+              (error, result) => {
+                if (!result) {
+                  // If the result failed, then flash error and re-route to Profile page:
+                  console.log("Failed to update Profile Info.");
+                  req.flash("error", "Failed To Update Profile Info");
+                  return res.render("/admin-profile-page", {
+                    superuser: oldData,
+                    msg: "Profile Unfortunately Failed To Update",
+                  });
+                }
+                console.log("Successfully Updated!");
+                return res.render("admin/admin-profile", {
+                  superuser: updatedUser,
+                  msg: "Profile Successfully Updated! THANK YOU!",
+                });
+              }
+            );
+          }
+        }
+      }
+    );
+  }
+});
+
+
+
 // @route GET /api/abmin-items
 // @desc  Renders The Items
 router.get("/api/admin-items", function (req, res) {
@@ -164,6 +632,7 @@ router.get("/api/admin-items", function (req, res) {
     const tempUser = {
       name: req.session.superuser_name,
       _id: req.session.superuser_id,
+      img: req.session.superuser_img
     };
     Item.find()
       .sort({ created_at: -1 })
@@ -171,7 +640,10 @@ router.get("/api/admin-items", function (req, res) {
         if (items && items.length > 0) {
           console.log("FoundItems!");
           // req.flash("error", "Found Items!");
+          req.flash("success", "FOUND ITEMS! Super User Logged In!");
+          // req.flash("success", "Super User Logged In!");
           res.render("admin/admin-show-items", {
+            
             items: items,
             msg: "Grabbed Available Items!",
             superuser: tempUser,
@@ -255,7 +727,7 @@ router.post("/api/items/create", (req, res) => {
 // @ desc    Delete a Item:
 // @ access   Public
 router.post("/api/admin-delete-item", (req, res) => {
-  console.log("ITEM ID output: " + req.body.item_id);
+  console.log("ITEM ID output delete: " + req.body.item_id);
   if (req.session.superuser_id) {
     Item.findById(req.body.item_id).then((item) => {
       if (item) {
@@ -280,20 +752,109 @@ router.post("/api/admin-delete-item", (req, res) => {
   }
 });
 
-//  RIGHT HERE! UPDATE ITEM!
 
+// @ route    POST /show-single-item-login
+// @ desc    view a single item while logged in:
+// @ access   Public
+router.post("/show-single-item-login", function (req, res) {
+  console.log("Hitting single item regular user: ");
+
+  console.log("ITEM ID output Show item form: " + req.body.item_id);
+  if (req.session.superuser_id) {
+    console.log("hitting here superuser logged in");
+    // MUST ADD QUERRY IF superuser NAME DOESN EXIST AND/OR STORE IT IN SESSION!
+      const tempUser = {
+        name: req.session.superuser_name,
+        _id: req.session.superuser_id,
+        img: req.session.superuser_img
+      }
+       // console.log("ITEM ID output update form: " + req.body.item_id);
+    Item.findById(req.body.item_id).then((item) => {
+      if (item) {
+
+        // console.log("TEST HERE! UPDATED ITEM!: "+ item);
+        // req.flash("error", "Found Item");
+        return res.render("single-products", {
+          superuser: tempUser,
+          item: item, // DONT BE FOOLED! THIS IS ITEM! NOT ITEMS! SINGLE! FOr future preference when rendering Single View Of Said newly Created Item:s
+        });
+      } else {
+        console.log("couldnt grab item");
+        req.flash("error", "Couldnt find item!");
+        res.redirect("/");
+      }
+    });
+      }else if(req.session.user_id) {
+        
+          console.log("Hitting here regular user logged in");
+      // MUST ADD QUERRY IF superuser NAME DOESN EXIST AND/OR STORE IT IN SESSION!
+      const tempUser = {
+        name: req.session.user_name, 
+        _id: req.session.user_id,
+        img: req.session.user_img
+      };
+    
+    console.log("ITEM ID output update for user logged in item id: " + req.body.item_id);
+    Item.findById(req.body.item_id).then((item) => {
+      if (item) {
+
+        // console.log("TEST HERE! UPDATED ITEM!: "+ item);
+        // req.flash("error", "Found Item");
+        return res.render("single-products", {
+          user: tempUser,
+          item: item, // DONT BE FOOLED! THIS IS ITEM! NOT ITEMS! SINGLE! FOr future preference when rendering Single View Of Said newly Created Item:s
+        });
+      } else {
+        console.log("couldnt grab item");
+        req.flash("error", "Couldnt find item!");
+        res.redirect("/");
+      }
+    });
+
+  }else if(!req.session.superuser_id || !req.session.user_id) {
+    console.log("Hitting here NOT LOGGED IN")
+    const tempUserTwo = {
+      name: "GUEST",
+      _id: null,
+      img: "whatever"
+    };
+    console.log("SHOWING NON LOGGED IN VALUES: "+ tempUserTwo.name,tempUserTwo._id,tempUserTwo.img,)
+    Item.findById(req.body.item_id).then((item) => {
+      if (item) {
+        console.log("HITTING HERE FOUND ITEM");
+
+        // console.log("TEST HERE! UPDATED ITEM!: "+ item);
+        // req.flash("error", "Found Item");
+        return res.render("single-products", {
+          user: tempUserTwo,
+          item: item, // DONT BE FOOLED! THIS IS ITEM! NOT ITEMS! SINGLE! FOr future preference when rendering Single View Of Said newly Created Item:s
+        });
+      } else {
+        console.log("couldnt grab item");
+        req.flash("error", "Couldnt find item!");
+        res.redirect("/");
+      }
+    });
+  }
+});
+  
+  
+
+// Update item:
 router.post("/admin-item-update-form", function (req, res) {
-  console.log("ITEM ID output: " + req.body.item_id);
+  console.log("ITEM ID output update form: " + req.body.item_id);
   if (req.session.superuser_id) {
     // MUST ADD QUERRY IF USER NAME DOESN EXIST AND/OR STORE IT IN SESSION!
     const tempUser = {
       name: req.session.superuser_name,
       _id: req.session.superuser_id,
+      img: req.session.superuser_img
     };
-    console.log("ITEM ID output: " + req.body.item_id);
+    console.log("ITEM ID output update form: " + req.body.item_id);
     Item.findById(req.body.item_id).then((item) => {
       if (item) {
-        console.log("FoundItem! It was created!");
+  
+        // console.log("TEST HERE! UPDATED ITEM!: "+ item);
         // req.flash("error", "Found Item");
         return res.render("admin/admin-update-item-form", {
           superuser: tempUser,
@@ -316,7 +877,7 @@ router.post("/admin-item-update-form", function (req, res) {
 // @ desc    Edit Item By ID Route
 // @ access   Private
 router.post("/api/admin-update-item", (req, res) => {
-  // console.log("ITEM ID output: " + req.body.item_id);
+  console.log("ITEM ID output update: " + req.body.item_id);
   Item.findById(req.body.item_id, (err, item) => {
     if (err) {
       req.flash("error", "Fields are empty");
@@ -328,36 +889,66 @@ router.post("/api/admin-update-item", (req, res) => {
         itemPrice,
         itemQuantity,
         itemQtySold,
-        itemImage,
+        myImage,
         itemDescription,
       } = req.body;
 
-      // Creating new Object Of Said Item Organized as desired to be input.
-      const newItem = {
-        name: itemName,
-        price: itemPrice,
-        quantity: itemQuantity,
-        qtySold: item.qtySold,
-        image: itemImage,
-        description: itemDescription,
-      };
+      if (!itemName || itemName === "") {
+        console.log("Name Is blank");
+        req.flash("error", "Please Enter A Name");
+        res.redirect("/admin/admin-update-item-form");
+      } else if (!itemPrice || itemPrice === "") {
+        console.log("email Is blank");
+        req.flash("error", "Please Enter An Email");
+        res.redirect("/admin/admin-update-item-form");
+      
+      } else if (!itemQtySold || itemQtySold === "") {
+        console.log("Invalid Nickname");
+        req.flash("error", "Please Enter A Nickname");
+        res.redirect("/admin/admin-update-item-form");
+      } else if (!itemDescription|| itemDescription === "") {
+        console.log("Invalid Nickname");
+        req.flash("error", "Please Enter A Nickname");
+        res.redirect("/admin/admin-update-item-form");
+      } else if (!itemQuantity|| itemQuantity === "") {
+        console.log("Invalid Nickname");
+        req.flash("error", "Please Enter A Nickname");
+        res.redirect("/admin/admin-update-item-form");
+      
+    
+      } else {
 
-      // console.log("Updated new item: ", newItem);
-      Item.updateOne(
-        { _id: new ObjectId(req.body.item_id) },
-        { $set: newItem },
-        (error, result) => {
-          if (error) {
-            // return res.status(500).send(error);
-            console.log("Upadte Item", error);
-            req.flash("error", "Failed to Update Item");
+        // ENd of validation ------------
+        // Check for existing user:
+ 
+
+        // Creating new Object Of Said Item Organized as desired to be input.
+        const newItem = {
+          name: itemName,
+          price: itemPrice,
+          quantity: itemQuantity,
+          qtySold: itemQtySold,
+          image: item.image,
+          description: itemDescription,
+        };
+
+        // console.log("Updated new item: ", newItem);
+        Item.updateOne(
+          { _id: req.body.item_id },
+          { $set: newItem },
+          (error, result) => {
+            if (error) {
+              // return res.status(500).send(error);
+              console.log("Upadte Item", error);
+              req.flash("error", "Failed to Update Item");
+              return res.redirect("/api/admin-items");
+            }
+            console.log("Successfully Updated!, New item is:" +newItem.imageg + "----"+ newItem.name);
+            req.flash("success", "Updated Item");
             return res.redirect("/api/admin-items");
           }
-          console.log("Successfully Updated!");
-          req.flash("success", "Updated Item");
-          return res.redirect("/api/admin-items");
-        }
-      );
+        );
+      }
     }
   });
 });
@@ -413,7 +1004,9 @@ router.get("/admin-reg-render", function (req, res) {
 // @route POST /admin-logout
 // @desc  Logout A SUPERUSER ADMIN
 router.post("/admin-logout", (req, res) => {
-  req.session = null;
+  // req.session = null;
+
+  req.session.destroy();
   // localStorage._deleteLocation();
   localStorage.clear();
   // console.log(
@@ -687,12 +1280,15 @@ router.get("/admin-register-SwordFish", function (req, res) {
 // @route GET /admin-menu
 // @desc  Renders The Super User Control Menu
 router.get("/admin-menu", async function (req, res) {
+  console.log("hitting here test1 2332: ");
   // res.render("admin-test");
   if (req.session.superuser_id) {
     const tempUser = {
       name: req.session.superuser_name,
       _id: req.session.superuser_id,
+      img: req.session.superuser_img
     };
+    console.log("TEST ADMIN-MENU: "+ req.session+ "AND: "+ req.session.superuser_img);
     // MUST ADD QUERRY IF USER NAME DOESN EXIST AND/OR STORE IT IN SESSION!
     // req.flash("error", "SUPERUSER IDENTIFIED!");
     // SUCCESS FOUND USER:
@@ -747,17 +1343,32 @@ router.post("/admin-login", (req, res) => {
                 // If Password is a match, then throw superuser ID into session and route to Admin Menu page:
                 req.session.superuser_id = superuser._id; // Throwing ID into session:
                 req.session.superuser_name = superuser.name; // Throwing name into session:
-                // Adding into local storage as well:m
+                req.session.superuser_img = superuser.img;
+                req.session.superuser_premium_credits = superuser.premium_credits; 
+
+                console.log("TEST HERE SUPER ID:! "+ superuser._id);
+                
+                // Adding into local storage as well:
 
                 localStorage.setItem("superuser_name", superuser.name);
                 localStorage.setItem("superuser_id", superuser._id);
+                localStorage.setItem("superuser_img", superuser.img);
+                
 
                 // res.render("admin-menu", {
                 //   superuser: superuser,
                 //   msg: "Successfully Logged in! Welcome Back!",
                 // });
                 req.flash("success", "Successfully Logged in!");
+                const tempUser = {
+                  name: req.session.superuser_name,
+                  _id: req.session.superuser_id,
+                  img: req.session.superuser_img
+                };
                 res.redirect("/admin-menu");
+                // res.render("/admin-menu", {
+                //   superuser: tempUser,
+                // });
                 // console.log("HITTING HERE! 2  ADmin login what in session: "+ req.session.superuser_name);
                 // console.log("HITTING HERE! 2  ADmin login what in session: "+ req.session.superuser_id);
               } else {
@@ -837,6 +1448,7 @@ router.post("/admin-register", (req, res) => {
         email: lowerEmail,
         password: passwordAdmin,
         img: "../uploads/default-photo-admin.jpg",
+        premium_credits: 0,
         isTheOne: true,
       });
       // Create salt and hashed password utilizing bcrypt:
@@ -890,6 +1502,7 @@ router.get("/success", function (req, res) {
         req.flash("error", "Must be logged in!");
         res.redirect("/");
       } else {
+        
         res.render("profile", { user: user });
       }
     });
@@ -903,7 +1516,7 @@ router.get("/success", function (req, res) {
 // @desc  Logout A User
 router.post("/logout", (req, res) => {
   console.log("HITTING LOGOUT AREA! ");
-  req.session = null;
+  req.session.destroy();
   localStorage.clear();
   res.redirect("/");
 });
@@ -976,6 +1589,7 @@ router.post("/register", (req, res) => {
         email: lowerEmail,
         password: passwordLog,
         nickname: nickname,
+        premium_credits: 0,
         img: "../uploads/default-photo.jpg",
       });
       // Create salt and hashed password utilizing bcrypt:
@@ -990,7 +1604,7 @@ router.post("/register", (req, res) => {
               // If error:
               console.log("User Already Exists!");
               req.flash("error", "User Already Exists");
-              return res.redirect("/");
+              return res.redirect("/register-page");
             }
           });
           console.log("success");
@@ -998,10 +1612,15 @@ router.post("/register", (req, res) => {
           req.session.user_id = newUser._id;
           req.session.user_name = newUser.name;
           req.session.user_nickname = newUser.nickname;
+          req.session.user_img = newUser.img;
+          req.session.user_email = newUser.email;
 
           localStorage.setItem("user_id", newUser._id);
           localStorage.setItem("user_name", newUser.name);
           localStorage.setItem("user_nickname", newUser.nickname);
+          localStorage.setItem("user_email", newUser.email);
+          localStorage.setItem("user_email", newUser.img);
+          
 
           // Send Email Function with nodemailer:
           // sendEmail(email, name) HERE! MOTE! SENDING EMAIL CALL! :
@@ -1023,7 +1642,7 @@ router.post("/register", (req, res) => {
 // @route GET /api/users/
 // @desc  Renders The Index/Login Reg Page
 router.get("/", function (req, res) {
-  localStorage.clear();
+  // localStorage.clear();
   res.render("index");
 });
 
@@ -1087,11 +1706,7 @@ router.get("/api/products", function (req, res) {
   }
 });
 
-// @route GET /single-product
-// @desc  Renders A Single Product
-router.get("/single-product", function (req, res) {
-  res.render("single-products");
-});
+
 
 // @route GET /
 // @desc  Renders The Profile Page *NOTE* Not being used anymore
@@ -1113,9 +1728,12 @@ router.get("/register-page", (req, res) => {
 // @route GET /login-page
 // @desc  Renders The Login Page
 router.get("/login-page", (req, res) => {
-  if (localStorage.superuser_name != "null") {
-    localStorage.clear();
-  }
+  // if (
+  //   localStorage.superuser_name != null ||
+  //   localStorage.superuser_name != undefined
+  // ) {
+  //   // localStorage.clear();
+  // }
   res.render("login");
 });
 
@@ -1168,13 +1786,13 @@ router.post("/upload", (req, res) => {
               res.redirect("/");
             } else {
               // Destructuring, pulling data from req.body:
-              const { name, zipcode, nickname, premium_credits } = user;
+              // HERE 10-30W
+              const { name, email, nickname, img } = user;
               // Creating new object with updated user fields:
               const updatedUser = {
-                name,
-                zipcode,
+                name, 
+                email, 
                 nickname,
-                premium_credits,
                 img: `uploads/${req.file.filename}`, // Declaring path to uploaded image:
               };
 
@@ -1261,13 +1879,12 @@ router.post("/update-profile", (req, res) => {
           res.redirect("/login-page");
         } else {
           // Destructuring, pulling data from the querried User data:
-          const { email, phone, img, premium_credits } = user;
+          const { email, img, premium_credits } = user;
           // Destructuring, pulling data from the req.body(FORM):
           const { name, zipcode, nickname } = req.body;
           // Creating user object for failed update:
           const oldData = {
             email,
-            phone,
             img,
             premium_credits,
           };
@@ -1277,7 +1894,6 @@ router.post("/update-profile", (req, res) => {
             email,
             zipcode,
             nickname,
-            phone,
             premium_credits,
             img,
           };
@@ -1336,6 +1952,28 @@ router.post("/update-profile", (req, res) => {
   }
 });
 
+// @route GET /login route render
+// @desc  Renders The Login Route if someone were to type it in manually in the URL Page
+router.get("/login", (req, res) => {
+  if (req.session.user_id) {
+    // Query DB For User by ID for current data:
+    User.findOne({ _id: req.session.user_id }, function (err, user) {
+      if (err) {
+        req.flash("error", "Must be logged in!"); // Flash error
+        res.redirect("/login-page");
+      } else {
+        // Render profile page:
+        req.flash("success", "Welcome Back " + req.session.user_name + "!");
+        res.render("profile", { user: user, msg: "Edit YOUR Profile!" });
+      }
+    });
+  } else {
+    // else User isnt loggedin or registered:
+    req.flash("error", "Must be logged in!");
+    res.redirect("/login-page");
+  }
+});
+
 // NOTE HERE! LEFT OFF ON LOGIN HERE!
 // @route  POST /login
 // @desc  For Logging In A User
@@ -1376,16 +2014,22 @@ router.post("/login", (req, res) => {
               req.session.user_id = user._id; // Throwing ID into session:
               req.session.user_name = user.name;
               req.session.user_nickname = user.nickname;
+              req.session.user_img = user.img;
+              req.session.user_email = user.email;
+              
               // req.session.user_image = user.image;
               // Put Name and ID as well into local storage:
               localStorage.setItem("user_name", user.name);
               localStorage.setItem("user_nickname", user.nickname);
               localStorage.setItem("user_id", user._id);
-              localStorage.setItem("user_image", user.image);
+              localStorage.setItem("user_image", user.img);
+              localStorage.setItem("user_email", user.email);
+
               res.render("profile", {
                 user: user,
                 msg: "Successfully Logged in! Welcome Back!",
               });
+              req.flash("success", "Welcome Back!");
             } else {
               // Else passwords did not match with stored hash:
               console.log("Wrong Password!");
@@ -1421,6 +2065,14 @@ router.get("/success", function (req, res) {
     res.redirect("/");
   }
 });
+
+
+
+
+
+
+
+
 
 // // @route POST /logout
 // // @desc  Logout A User

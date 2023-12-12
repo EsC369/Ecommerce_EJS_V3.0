@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>░░💯👀💯░░</title>
-    <meta name="description" content=" COMPANY NAME | SIGNIFICANT CONTENT TO APP
-    />
     <meta name="author" content="EsC1337 | Ryan Smith" />
-    <meta
-      name="keywords"
-      content="ANY KEY WORDS AND ALL KEYWORDS FOR ANYING OF RELEVANCY OF SAID APP"
-    />
-
+    <meta name="description" content="COMPANY NAME | SIGNIFICANT CONTENT TO APP" />
+    <meta name="keywords" content="ANY KEY WORDS AND ALL KEYWORDS FOR ANYING OF RELEVANCY OF SAID APP" />
     <link rel="icon" href="img/favicon.png" sizes="32x32" />
     <link rel="icon" href="img/favicon.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="/img/favicon.png" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -33,23 +27,42 @@
       rel="stylesheet"
       href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
     />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <header class="header"><%- include('partials/navbar') %></header>
+
     <!-- header-end ./ -->
 
     <main class="wrapper">
+      
+      <%- include('partials/navbar') %>
+
+      <!-- ERROR MESSAGES! -->
+  
+        <% JSON.stringify(messages) %> <% if(messages.error) { %>
+      <div class="alert alert-danger">
+        <% for (var x of messages.error) { %>
+        <h6 align="center" style="color: red;margin-top: 7px;"><%= x %></h6>
+      </div>
+      <% } %> <% } %>
+
+      
+
+      
+      <form method="POST" action="/api/carts">
+
       <section class="product-details">
         <div class="container-fluid">
           <div class="row gap-5">
             <div class="col-md-12 col-lg-6 mx-auto single-product-img">
               <div class="big-product">
                 <img
-                  src="img/products/quantum.png"
+                  src="<%= '/'+ item.image != 'undefined' ? '/'+ item.image : '' %>"
+                
                   class="pro-img img-fluid"
                   alt="Quantum Watch"
                 />
+                <input type="text" name="image" value="<%= item.image%>" hidden>
               </div>
               <div class="img-gr d-flex justify-content-between">
                 <div class="col-lg-3 img-col">
@@ -82,37 +95,48 @@
                 </div>
               </div>
             </div>
+            <!-- aasdadas -->
 
-            <div class="col-md-12 col-lg-5 mx-auto single-details">
-              <h6>Home / Quantum Watch</h6>
-              <h4>Men's Quantum Cat</h4>
-              <h2>139.00&euro;</h2>
-              <select>
+            <div style="text-align: center;margin: auto;" class="col-md-12 col-lg-5 mx-auto single-details">
+              <h6 style="text-align: center;margin: auto;color:coral;">Home/ Whatever</h6>
+              <hr>
+              <p style="text-align: center;margin: auto;color:coral;font-size: 20px;">Title:</p>
+              <input type="text" name="name" value="<%= item.name %>" hidden>
+              <h4 style="text-align: center;margin: auto;color:coral;"><%= item.name %></h4>
+              <hr>
+              <p style="text-align: center;margin: auto;color:coral;font-size: 20px;">Price:</p><br><br>
+              <input type="number" name="price" value="<%= item.price %>" hidden>
+              <h2 style="text-align: center;margin: auto;color:coral;"><%= item.price %></h2>
+              <input type="number" name="quantity" value="<%= item.quantity %>" hidden>
+              <input type="number" name="qtySold" value="<%= item.qtySold %>" hidden>
+              <br><hr>
+             
+              
+              <label style="text-align: center;margin: auto;color:coral;font-size: 20px;" for="item-size">What Is The Size You Want?</label><br><br>
+              <select name="size" style="text-align: center;margin: auto;color:coral;">
                 <option>Select Size</option>
                 <option>45mm / 7.5"</option>
                 <option>42mm / 7"</option>
                 <option>40mm / 6.5"</option>
                 <option>38mm / 6"</option>
               </select>
-              <input type="number" min="1" max="10" value="1" />
-              <button class="btn-normal">Add to Cart</button>
-              <h4>Product Details</h4>
-              <span>
-                Original wristwatch from the world famous brand QUANTUM. <br />
-
-                High quality and unique Italian design make Quantum watches
-                stand out from the others. <br />
-
-                The watch comes with the original box and warranty card for 2
-                Years. <br />
-
-                QUANTUM - The Big Time. <br />
-
-                To try it out and take a closer look you can visit us in our
-                stores. <br />
-
-                <a href="http://ora-ks.com/dyqanet"
-                  >http://ora-ks.com/dyqanet</a
+              <br><hr><br>
+              <label style="text-align: center;margin: auto;color:coral;font-size: 20px;" for="quantity">How Many Do You Want?</label><br><br>
+              <input type="number" name="desiredQuantity" min="1" max="10" value="1" />
+              <br><br><hr><br>
+              
+              
+                <input type="text" name="item_id" value="<%= item._id %>" hidden>
+                <button style="background-color:gold;" class="btn btn- btn-normal"
+                  type="submit">ADD TO CART</button>
+              </form><br>
+              <h4 style="color:coral;">Product Details:</h4>
+              <input type="text" name="description" value="<%= item.description %>" hidden>
+              <span style="color:coral;">
+                <%= item.description %>
+                <br><hr>
+                <a href="#"
+                  >http://Whatever.com</a
                 >
               </span>
             </div>
@@ -125,6 +149,7 @@
           <div class="row justify-content-center">
             <div class="col-md-8">
               <article class="title text-center">
+                <hr>
                 <h2 class="title-sec">Products</h2>
                 <p class="sub-title">
                   Related Products <i class="uil uil-list-ui-alt"></i
@@ -256,6 +281,62 @@
         </div>
       </section>
       <!-- products-end ./ -->
+      <!-- product support-end -->
+
+      <br><br>
+      <hr style="color: red; ">
+      <br><br>
+
+      <section class="collection my-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-lg-6 c-box-img">
+              <div class="c-box">
+                <h4>Crazy Deals</h4>
+                <h2>Buy 1 get 1 Free</h2>
+                <span
+                  >The best class watch is on sale at Ora Watches &amp;
+                  Jewelery.</span
+                >
+                <button class="btn-coll">Learn More</button>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6 c-box-img">
+              <div class="c-box">
+                <h4>Spring / Summer</h4>
+                <h2>Upcomming Season</h2>
+                <span
+                  >The best class watch is on sale at Ora Watches &amp;
+                  Jewelery.</span
+                >
+                <button class="btn-coll">Collection</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container xs-c-oll">
+          <div class="row">
+            <div class="col-md-6 col-lg-4 c-box-img">
+              <div class="c-box">
+                <h4>SEASONAL SALE</h4>
+                <h2>Men Watches, Jewelery & Accessories</h2>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4 c-box-img">
+              <div class="c-box">
+                <h4>SEASONAL SALE</h4>
+                <h2>Women Watches, Jewelery & Accessories</h2>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4 c-box-img">
+              <div class="c-box">
+                <h4>SEASONAL SALE</h4>
+                <h2>Child Watches & Accessories</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="newsletter">
         <div class="container">
@@ -354,6 +435,21 @@
           </div>
         </div>
       </div>
+      <div class="col-12">
+        <div class="copyright">
+          <p class="copy">&copy;<span id="year">. My Web Name.</span></p>
+          <a href="https://my-site.com/" class="go-to-link">
+            <p class="by">By:</p>
+            <span id="author">Web Studio</span>
+          </a>
+        </div>
+      </div>
+
+      <button class="back-to-top hidden">
+        <i class="uil uil-angle-up"></i>
+      </button>
+
+     
     </footer>
     <!-- footer-end ./ -->
 
@@ -362,16 +458,6 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
-    <script src="js/script.js"></script>
-    <script>
-      var proImg = document.querySelector(".pro-img");
-      var imgCol = document.querySelectorAll(".img-sm");
-
-      imgCol.forEach((img) => {
-        img.onclick = () => {
-          proImg.src = img.src;
-        };
-      });
-    </script>
+    <script src="/js/script.js"></script>
   </body>
 </html>

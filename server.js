@@ -15,6 +15,8 @@ const Users = require("./routes/api/users");
 // Modules:
 const Routes = require("./routes/api/routes");
 const User = require("./models/User");
+const carts = require("./routes/api/carts");
+const orders = require("./routes/api/orders");
 
 // Db Config:
 // const db = config.get("mongoURI");
@@ -44,6 +46,7 @@ if (app.get("env") === "production") {
   sess.cookie.secure = true; // serve secure cookies
 }
 
+
 // Initialize session:
 app.use(
   session({
@@ -61,8 +64,11 @@ app.use(flash());
 app.use("/", Routes);
 // app.use("/api/users", Users);
 // app.use("/api/items", Items);
+app.use("/api/carts", carts);
+app.use("/api/orders", orders);
 
 // Listening
 app.listen(port, () => {
   console.log(`Server Running On Port: ${port}`);
 });
+

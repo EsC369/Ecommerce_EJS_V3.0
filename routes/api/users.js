@@ -391,7 +391,7 @@ router.get("/success", function (req, res) {
     User.findOne({ _id: req.session.user_id }, function (err, user) {
       if (err) {
         req.flash("error", "Must be logged in!")
-        res.redirect("/");
+        res.redirect("/login-page");
       }
       else {
         res.render("profile", { user: user });
@@ -400,7 +400,7 @@ router.get("/success", function (req, res) {
   }
   else {
     req.flash("error", "Must be logged in!")
-    res.redirect("/");
+    res.redirect("/login-page");
   }
 });
 

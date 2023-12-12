@@ -369,7 +369,7 @@
                     type="text"
                     class="form-control"
                     name="itemName"
-                    placeholder="User Name"
+                    placeholder="Item Title"
                   />
                 </div>
 
@@ -402,6 +402,7 @@
                     class="form-control"
                     name="itemPrice"
                     placeholder="Item Price"
+                    type="number"
                   />
                 </div>
 
@@ -412,19 +413,29 @@
                     class="form-control"
                     name="itemQuantity"
                     placeholder="Item Quantity"
+                    type="number"
                   />
                 </div>
 
                 <div class="form-group">
                   <!-- <label for="exampleFormControlInput1">Email address</label> -->
-                  <input
-                    type="nuber"
-                    class="form-control"
-                    s
-                    name="itemImage"
-                    placeholder="Item Image"
-                  />
+                  
+                  <h3>ITEM IMAGE:</h3>
+
+                  <center>
+                    <p style="font-size:20px;"><u><span class="" style="color:red;"> *NOTE!* </span> DEFAULT IMAGE Will Show as This Until adding one yourself. CHECK VIA UPDATE ITEM MENU</p> </u>
+
+                    <div class="container"><img src="img/undraw_rocket.svg" class="img-fluid img-responsive avatar responsive" style="width:40%;height:60%" alt="Avatar">
+                      <br><br><br>
+                    <!-- <form action="/admin-item-img" method="POST" enctype="multipart/form-data">
+                      <input id="fileUpload" name="itemImage" type="file">
+                      <br>
+                      <button class="btn-responsive-two btn btn-info d-flex justify-content-center d-md-table mx-auto" type="submit" class="btn">Submit</button>
+                    </form> -->
+                  </div>
+                </center>
                 </div>
+                <br><hr><br>
                 <button
                   style="margin-bottom: 20px; font-size: 15px"
                   class="btn btn-lg btn-info btn-block"

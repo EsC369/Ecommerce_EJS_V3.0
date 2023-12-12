@@ -93,14 +93,26 @@
                   <span class="discount">-25%</span>
                   <a href="./products/product-details.html" class="link">
                     <figure class="img-box">
-                      <!-- <div class="container"><img src="<%= items[i].image != 'undefined' ? items[i].image : '' %>" class="img-fluid img-responsive avatar responsive" alt="Avatar"></div> -->
-                      <img src="/img/products/quantum.png" alt="">
+                      <form method="POST" action="/show-single-item-login"> 
+                        <input type="text" name="item_id" value="<%= items[i]._id %>" hidden>
+                        <button style="padding-top:5%;padding-bottom: 10%;font-size:15px;" class="btn btn-lg btn-dark btn-block"
+                          type="submit">
+                          <div style="padding-top:8%;"></div>
+                      <a href="#" class="link">
+                        <figure class="img-box"> 
+                          <!-- <p>TEST HERE:<%= items[i].image %> </p> -->
+                          <!-- <div class="container"><img src="<%= items[i].image != 'undefined' ? items[i].image : '' %>" class="img-fluid img-responsive avatar responsive" alt="Avatar"></div> -->
+                          <!-- <img src="/img/products/quantum.png" alt=""> -->
+                          
+                          <img src="<%= '/'+ items[i].image != 'undefined' ? '/'+ items[i].image : '' %>" alt="NOTHING">
+                        </button>
+                        
                     </figure>
+                  </form>
                   </a>
                   <div class="details">
                     <span class="cat"
-                      ><i class="uil uil-tag-alt"></i> RAGE/span
-                    >
+                      ><i class="uil uil-tag-alt"></i> RAGE </span>
                     <a href="./products/product-details.html" class="link">
                       <h5 class="title"><%= items[i].name %></h5>
                     </a>

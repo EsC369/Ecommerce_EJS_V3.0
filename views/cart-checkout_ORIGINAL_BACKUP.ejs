@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>░░💯👀💯░░</title>
+    <meta name="author" content="EsC1337 | Ryan Smith" />
+    <meta
+      name="description"
+      content="COMPANY NAME | SIGNIFICANT CONTENT TO APP"
+    />
+    <meta
+      name="keywords"
+      content="ANY KEY WORDS AND ALL KEYWORDS FOR ANYING OF RELEVANCY OF SAID APP"
+    />
+    <link rel="icon" href="img/favicon.png" sizes="32x32" />
+    <link rel="icon" href="img/favicon.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/img/favicon.png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk  t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+    />
+
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Lato:400, 700,300);
+body {
+  background-color: #ffb242;
+  font-family: lato, 'helvetica-light';
+  position: relative;
+  text-transform: uppercase;
+  padding: 20px 0;
+}
+
+#amount {
+  font-size: 12px;
+}
+
+#amount strong {
+  font-size: 14px;
+}
+
+#card-back {
+  top: 40px;
+  right: 0;
+  z-index: -2;
+}
+
+#card-btn {
+  background-color: rgba(251, 251, 251, 0.8);
+  color: #ffb242;
+  position: absolute;
+  bottom: -55px;
+  right: 0;
+  width: 150px;
+  border-radius: 8px;
+  height: 42px;
+  font-size: 12px;
+  font-family: lato, 'helvetica-light', 'sans-serif';
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+#card-btn:hover {
+  background-color: rgba(251, 251, 251, 1);
+}
+
+#card-cvc {
+  width: 60px;
+  margin-bottom: 0;
+}
+
+#card-front,
+#card-back {
+  position: absolute;
+  background-color: rgb(207, 204, 204);
+  width: 390px;
+  height: 250px;
+  border-radius: 6px;
+  padding: 20px 30px 0;
+  box-sizing: border-box;
+  font-size: 10px;
+  letter-spacing: 1px;
+  font-weight: 300;
+  color: white;
+}
+
+#card-image {
+  float: right;
+  height: 100%;
+}
+
+#card-image i {
+  font-size: 40px;
+}
+
+#card-month {
+  width: 45% !important;
+}
+
+#card-number,
+#card-holder {
+  width: 100%;
+}
+
+#card-stripe {
+  width: 100%;
+  height: 55px;
+  background-color: #3d5266;
+  position: absolute;
+  right: 0;
+}
+
+#card-success {
+  color: #00b349;
+}
+
+#card-token {
+  display: none;
+}
+
+#card-year {
+  width: 45%;
+  float: right;
+}
+
+#cardholder-container {
+  width: 60%;
+  display: inline-block;
+}
+
+#cvc-container {
+  position: absolute;
+  width: 110px;
+  right: -115px;
+  bottom: -10px;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+#cvc-container label {
+  width: 100%;
+}
+
+#cvc-container p {
+  font-size: 6px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  letter-spacing: .5px;
+}
+
+#form-container {
+  margin: auto;
+  width: 500px;
+  height: 290px;
+  position: relative;
+}
+
+#form-errors {
+  color: #eb0000;
+}
+
+#form-errors,
+#card-success {
+  background-color: white;
+  width: 500px;
+  margin: 0 auto 10px;
+  height: 50px;
+  border-radius: 8px;
+  padding: 0 20px;
+  font-weight: 400;
+  box-sizing: border-box;
+  line-height: 46px;
+  letter-spacing: .5px;
+  text-transform: none;
+}
+
+#form-errors p,
+#card-success p {
+  margin: 0 5px;
+  display: inline-block;
+}
+
+#exp-container {
+  margin-left: 10px;
+  width: 32%;
+  display: inline-block;
+  float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+#image-container {
+  width: 100%;
+  position: relative;
+  height: 55px;
+  margin-bottom: 5px;
+  line-height: 55px;
+}
+
+#image-container img {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+input {
+  border: none;
+  outline: none;
+  background-color: #5a9def;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  margin: 0 0 25px;
+  color: white;
+  font-size: 10px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-family: lato, 'helvetica-light', 'sans-serif';
+  letter-spacing: .7px;
+}
+
+input::-webkit-input-placeholder {
+  color: #fff;
+  opacity: 0.7;
+  font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+
+input:-moz-placeholder {
+  color: #fff;
+  opacity: 0.7;
+  font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+
+input::-moz-placeholder {
+  color: #fff;
+  opacity: 0.7;
+  font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+
+input:-ms-input-placeholder {
+  color: #fff;
+  opacity: 0.7;
+  font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+
+input.invalid {
+  border: solid 2px #eb0000;
+  height: 34px;
+}
+
+label {
+  display: block;
+  margin: 0 auto 7px;
+}
+
+#shadow {
+  position: absolute;
+  right: 0;
+  width: 284px;
+  height: 214px;
+  top: 36px;
+  background-color: #000;
+  z-index: -1;
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+    </style>
+
+   <style>
+    *, *:before, *:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	direction: ltr;
+}
+fieldset {
+	width:550px;
+	border: solid 1px #dddddd;
+	padding: 0.5rem;
+	margin: 1rem;
+	background: rgba(224, 224, 224, 0.75);
+	border-radius: 20px;
+}
+fieldset legend {
+	font-weight: bold;
+	background: white;
+	padding: 0.25rem 2ch;
+	margin: 0;
+	margin-left: 1ch;
+	background: rgb(224, 224, 224);
+	border-radius: 20px;
+}
+._state {
+	margin-left:-1ch;
+}
+._state, ._zip {
+	display:block;
+	text-align:center;
+}
+
+.row:before, .row:after {
+	content: " ";
+	display: table;
+}
+.row .columns {
+	padding: 0 0.5rem;
+}
+
+.columns {
+	position: relative;
+	padding-left: 0.9375rem;
+	padding-right: 0.9375rem;
+	float: left;
+	width: 100%;
+}
+label {
+	font-size: 0.875rem;
+	color: #4d4d4d;
+	cursor: pointer;
+	display: block;
+	font-weight: bold;
+	margin-bottom: 0.25rem;
+}
+input, textarea {
+	-webkit-appearance: none;
+}
+input, textarea, select {
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	background-color: white;
+	font-family: inherit;
+	border: 1px solid #cccccc;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	color: rgba(0, 0, 0, 0.75);
+	display: block;
+	font-size: 1rem;
+	margin: 0 0 0.5rem 0;
+	padding: 0.15rem 1ch;
+	height: 1.5rem;
+	width: 100%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: -webkit-box-shadow 0.45s, border-color 0.45s ease-in-out;
+	-moz-transition: -moz-box-shadow 0.45s, border-color 0.45s ease-in-out;
+	transition: box-shadow 0.45s, border-color 0.45s ease-in-out;
+	border-radius:10px;
+}
+
+.row .row:after {
+	clear: both;
+}
+
+.row .row:before, .row .row:after {
+	content: " ";
+	display: table;
+}
+.row:after {
+	clear: both;
+}
+.row:before, .row:after {
+	content: " ";
+	display: table;
+}
+.small-12 {
+	position: relative;
+	width: 100%;
+}
+.small-8 {
+	position: relative;
+	width: 66.66667%;
+}
+.small-6 {
+	position: relative;
+	width: 50%;
+}
+.small-4 {
+	position: relative;
+	width: 30%;
+}
+.small-2 {
+	position: relative;
+	width: 20%;
+}
+
+   </style>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>  
+   
+    <header>
+    
+    </header>
+    <!-- header-end ./ -->
+
+    <main class="wrapper">
+      <% JSON.stringify(messages) %>
+        <% if(messages.error) { %>
+          <div class="alert alert-danger">
+          <% for (var x of messages.error) { %>
+            <h6 align="center" style="color:red;"><%= x %></h6>
+          </div>
+          <% } %>
+        <% } %>
+        
+      <section class="hero blog-hero">
+        <div class="container-fluid">
+          <div class="row">
+            <h2>Shopping Cart</h2>
+            <p>
+              Thank you for choosing US! FOR LIKE THINGS!, for the
+              checkout/payment see details below!
+            </p>
+            <p style="color:red;font-size:20px;font-weight: bold;"> NOTE! THIS IS STATIC INFORMATION! NOT FULLY FUNCTIONAL YET!</p>
+          </div>
+        </div>
+      </section>
+      <!-- hero ./ -->
+
+      <section class="cart">
+        <center> <h2>Your Current Cart:</h2> </center>
+        <div  class="container">
+          
+        <% var tempPrice = 0; %>
+       
+          <% for(var i=0; i<cart.products.length; i++) { %>
+            <% var tempPrice = tempPrice + (cart.products[i].price * cart.products[i].desiredQuantity) %>
+            
+          <div class="row">
+            
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <td>Remove</td>
+                  <td>Image</td>
+                  <td>Product</td>
+                  <td>Price</td>
+                  <td>Quantity</td>
+                  <td>Subtotal</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+
+                    <form  style="padding-top:10%;" method="POST" action="/api/carts/delete/:id">
+                      
+                      <input type="text" name="item_id" value="<%= cart.products[i]._id %>" hidden>
+                    
+                      <button style="margin-bottom:20px;font-size:15px;" class="btn btn-lg btn-danger btn-block"
+                        onclick="return confirm('Are you sure you want to delete This Item From Your Cart?');"
+                        type="submit">
+                      </button>
+                    </form>
+
+                  </td>
+                  <td><img src="<%= '/'+ cart.products[i].image != 'undefined' ? '/'+ cart.products[i].image : '' %>" alt="OOPS, Couldnt grab image.." /></td>
+                  <td><%- cart.products[i].name %> </td>
+                  <td><%- cart.products[i].price %> $</td>
+                    <% var test =  cart.products[i].desiredQuantity %>
+                  <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= cart.products[i].desiredQuantity %> 
+                    <!-- <br> <input id="desiredQuantity" name="desiredQuantity"  type="number" value="1" max="10" /></td> -->
+                  <td> SUb TOTAL: <%= (cart.products[i].price * cart.products[i].desiredQuantity) %> $</td>
+                </tr>
+               
+               
+               
+              </tbody>
+            </table>
+
+            
+          </div>
+          <% } %>
+        </div>
+      </section>
+
+      <section>
+       
+        <center>
+          <hr><br>
+          <center> <h2>Billing And Shipping:</h2> </center>
+        <div class="container">
+
+
+          <div style="width:100%;"" class="d-flex flex-row">
+            <fieldset>
+              <center>
+              <h3>Shipping Address</h3>
+            </center>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Full Name</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Company Name</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Address 1</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Address 2</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-6 columns">
+                  <label>
+                    <span>Town/City</span>
+                    <input type="text">
+                  </label>
+                </div>
+                <div class="small-2 columns">
+                  <label>
+                    <span class="_state">State/Province</span>
+                    <select style="width:8ch;">
+                      <option value="0"></option>
+                      <option value="AL">AL - Alabama</option>
+                      <option value="AK">AK - Alaska</option>
+                      <option value="AZ">AZ - Arizona</option>
+                      <option value="AR">AR - Arkansas</option>
+                      <option value="CA">CA - California</option>
+                      <option value="CO">CO - Colorado</option>
+                      <option value="CT">CT - Connecticut</option>
+                      <option value="DE">DE - Delaware</option>
+                      <option value="FL">FL - Florida</option>
+                      <option value="GA">GA - Georgia</option>
+                      <option value="HI">HI - Hawaii</option>
+                      <option value="ID">ID - Idaho</option>
+                      <option value="IL">IL - Illinois</option>
+                      <option value="IN">IN - Indiana</option>
+                      <option value="IA">IA - Iowa</option>
+                      <option value="KS">KS - Kansas</option>
+                      <option value="KY">KY - Kentucky</option>
+                      <option value="LA">LA - Louisiana</option>
+                      <option value="ME">ME - Maine</option>
+                      <option value="MD">MD - Maryland</option>
+                      <option value="MA">MA - Massachusetts</option>
+                      <option value="MI">MI - Michigan</option>
+                      <option value="MN">MN - Minnesota</option>
+                      <option value="MS">MS - Mississippi</option>
+                      <option value="MO">MO - Missouri</option>
+                      <option value="MT">MT - Montana</option>
+                      <option value="NE">NE - Nebraska</option>
+                      <option value="NV">NV - Nevada</option>
+                      <option value="NH">NH - New Hampshire</option>
+                      <option value="NJ">NJ - New Jersey</option>
+                      <option value="NM">NM - New Mexico</option>
+                      <option value="NY">NY - New York</option>
+                      <option value="NC">NC - North Carolina</option>
+                      <option value="ND">ND - North Dakota</option>
+                      <option value="OH">OH - Ohio</option>
+                      <option value="OK">OK - Oklahoma</option>
+                      <option value="OR">OR - Oregon</option>
+                      <option value="PA">PA - Pennsylvania</option>
+                      <option value="RI">RI - Rhode Island</option>
+                      <option value="SC">SC - South Carolina</option>
+                      <option value="SD">SD - South Dakota</option>
+                      <option value="TN">TN - Tennessee</option>
+                      <option value="TX">TX - Texas</option>
+                      <option value="UT">UT - Utah</option>
+                      <option value="VT">VT - Vermont</option>
+                      <option value="VA">VA - Virginia</option>
+                      <option value="WA">WA - Washington</option>
+                      <option value="WV">WV - West Virginia</option>
+                      <option value="WI">WI - Wisconsin</option>
+                      <option value="WY">WY - Wyoming</option>
+                      <option value="DC">DC - District Of Columbia (Washington, D.C.)</option>
+                      <option value="AS">AS - American Samoa</option>
+                      <option value="FM">FM - Federated States Of Micronesia</option>
+                      <option value="GU">GU - Guam</option>
+                      <option value="MH">MH - Marshall Islands</option>
+                      <option value="MP">MP - Northern Mariana Islands</option>
+                      <option value="PW">PW - Palau</option>
+                      <option value="PR">PR - Puerto Rico</option>
+                      <option value="VI">VI - Virgin Islands</option>
+                      <option value="AB">AB - Alberta</option>
+                      <option value="BC">BC - British Columbia</option>
+                      <option value="MB">MB - Manitoba</option>
+                      <option value="NB">NB - New Brunswick</option>
+                      <option value="NL">NL - Newfoundland and Labrador</option>
+                      <option value="NS">NS - Nova Scotia</option>
+                      <option value="NT">NT - Northwest Territories</option>
+                      <option value="NU">NU - Nunavut</option>
+                      <option value="ON">ON - Ontario</option>
+                      <option value="PE">PE - Prince Edward Island</option>
+                      <option value="QC">QC - Quebec</option>
+                      <option value="SK">SK - Saskatchewan</option>
+                      <option value="YT">YT - Yukon</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="small-4 columns">
+                  <label>
+                    <span class="_zip">Postcode/ZIP</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Phone</span>
+                    <input type="tel">
+                  </label>
+                </div>
+              </div>
+              
+            </fieldset>
+            
+
+          
+            <fieldset>
+              
+              <center>
+              <h3>Billing Address</h3>
+            </center>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Full Name</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Company Name</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Address 1</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Address 2</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-6 columns">
+                  <label>
+                    <span>Town/City</span>
+                    <input type="text">
+                  </label>
+                </div>
+                <div class="small-2 columns">
+                  <label>
+                    <span class="_state">State/Province</span>
+                    <select style="width:8ch;">
+                      <option value="0"></option>
+                      <option value="AL">AL - Alabama</option>
+                      <option value="AK">AK - Alaska</option>
+                      <option value="AZ">AZ - Arizona</option>
+                      <option value="AR">AR - Arkansas</option>
+                      <option value="CA">CA - California</option>
+                      <option value="CO">CO - Colorado</option>
+                      <option value="CT">CT - Connecticut</option>
+                      <option value="DE">DE - Delaware</option>
+                      <option value="FL">FL - Florida</option>
+                      <option value="GA">GA - Georgia</option>
+                      <option value="HI">HI - Hawaii</option>
+                      <option value="ID">ID - Idaho</option>
+                      <option value="IL">IL - Illinois</option>
+                      <option value="IN">IN - Indiana</option>
+                      <option value="IA">IA - Iowa</option>
+                      <option value="KS">KS - Kansas</option>
+                      <option value="KY">KY - Kentucky</option>
+                      <option value="LA">LA - Louisiana</option>
+                      <option value="ME">ME - Maine</option>
+                      <option value="MD">MD - Maryland</option>
+                      <option value="MA">MA - Massachusetts</option>
+                      <option value="MI">MI - Michigan</option>
+                      <option value="MN">MN - Minnesota</option>
+                      <option value="MS">MS - Mississippi</option>
+                      <option value="MO">MO - Missouri</option>
+                      <option value="MT">MT - Montana</option>
+                      <option value="NE">NE - Nebraska</option>
+                      <option value="NV">NV - Nevada</option>
+                      <option value="NH">NH - New Hampshire</option>
+                      <option value="NJ">NJ - New Jersey</option>
+                      <option value="NM">NM - New Mexico</option>
+                      <option value="NY">NY - New York</option>
+                      <option value="NC">NC - North Carolina</option>
+                      <option value="ND">ND - North Dakota</option>
+                      <option value="OH">OH - Ohio</option>
+                      <option value="OK">OK - Oklahoma</option>
+                      <option value="OR">OR - Oregon</option>
+                      <option value="PA">PA - Pennsylvania</option>
+                      <option value="RI">RI - Rhode Island</option>
+                      <option value="SC">SC - South Carolina</option>
+                      <option value="SD">SD - South Dakota</option>
+                      <option value="TN">TN - Tennessee</option>
+                      <option value="TX">TX - Texas</option>
+                      <option value="UT">UT - Utah</option>
+                      <option value="VT">VT - Vermont</option>
+                      <option value="VA">VA - Virginia</option>
+                      <option value="WA">WA - Washington</option>
+                      <option value="WV">WV - West Virginia</option>
+                      <option value="WI">WI - Wisconsin</option>
+                      <option value="WY">WY - Wyoming</option>
+                      <option value="DC">DC - District Of Columbia (Washington, D.C.)</option>
+                      <option value="AS">AS - American Samoa</option>
+                      <option value="FM">FM - Federated States Of Micronesia</option>
+                      <option value="GU">GU - Guam</option>
+                      <option value="MH">MH - Marshall Islands</option>
+                      <option value="MP">MP - Northern Mariana Islands</option>
+                      <option value="PW">PW - Palau</option>
+                      <option value="PR">PR - Puerto Rico</option>
+                      <option value="VI">VI - Virgin Islands</option>
+                      <option value="AB">AB - Alberta</option>
+                      <option value="BC">BC - British Columbia</option>
+                      <option value="MB">MB - Manitoba</option>
+                      <option value="NB">NB - New Brunswick</option>
+                      <option value="NL">NL - Newfoundland and Labrador</option>
+                      <option value="NS">NS - Nova Scotia</option>
+                      <option value="NT">NT - Northwest Territories</option>
+                      <option value="NU">NU - Nunavut</option>
+                      <option value="ON">ON - Ontario</option>
+                      <option value="PE">PE - Prince Edward Island</option>
+                      <option value="QC">QC - Quebec</option>
+                      <option value="SK">SK - Saskatchewan</option>
+                      <option value="YT">YT - Yukon</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="small-4 columns">
+                  <label>
+                    <span class="_zip">Postcode/ZIP</span>
+                    <input type="text">
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="small-12 columns">
+                  <label>
+                    <span>Phone</span>
+                    <input type="tel">
+                  </label>
+                </div>
+              </div>
+              <button style="img" class="btn-sm btn-info">CLICK HERE IS BILLING Is The Same As Shipping</button>
+              
+            </fieldset>
+          </div>
+        </center>
+
+          
+        </div>
+      </section>
+      <hr><br>
+      <!-- END OF BILLING AND SHIPPING FORM -->
+
+      <section>
+        <div class="container">
+          <center> <h2>Payment:</h2> </center>
+          <div id="card-success" class="hidden">
+            <i class="fa fa-check"></i>
+            <p>Payment Successful!</p>
+          </div>
+          <div id="form-errors" class="hidden">
+            <i class="fa fa-exclamation-triangle"></i>
+            <p id="card-error">Card error</p>
+          </div>
+          <div id="form-container">
+          
+            <div id="card-front">
+              <div id="shadow"></div>
+              <div id="image-container">
+                <span id="amount">paying: <strong>$99</strong></span>
+                <span id="card-image">
+                
+                  </span>
+              </div>
+              <!--- end card image container --->
+          
+              <label for="card-number">
+                  Card Number
+                </label>
+              <input type="text" id="card-number" placeholder="1234 5678 9101 1112" length="16">
+              <div id="cardholder-container">
+                <label for="card-holder">Card Holder
+                </label>
+                <input type="text" id="card-holder" placeholder="e.g. John Doe" />
+              </div>
+              <!--- end card holder container --->
+              <div id="exp-container">
+                <label for="card-exp">
+                    Expiration
+                  </label>
+                <input id="card-month" type="text" placeholder="MM" length="2">
+                <input id="card-year" type="text" placeholder="YY" length="2">
+              </div>
+                  <div id="cvc-container">
+                <label for="card-cvc"> CVC/CVV</label>
+                <input id="card-cvc" placeholder="XXX-X" type="text" min-length="3" max-length="4">
+                <p>Last 3 or 4 digits</p>
+              </div>
+              <!--- end CVC container --->
+              <!--- end exp container --->
+            </div>
+            <!--- end card front --->
+            <div id="card-back">
+              <div id="card-stripe">
+              </div>
+          
+            </div>
+            <!--- end card back --->
+            
+            <input type="text" id="card-token" />
+            <form method="POST" action="/api/carts/checkout">
+              <!-- <input type="text" name="cart_id" value="<%= cart._id %>" hidden> -->
+            
+              <button class="btn btn-lg btn-danger btn-block"
+                onclick="return confirm('Are you sure you want to delete Your Entire Cart?');"
+                type="submit">Purchase</button>
+              
+            </form>
+            <button type="button" id="card-btn">Purchase Items</button>
+          
+          </div>
+          <!--- end form container --->
+          
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+          <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+          <script src="https://use.fontawesome.com/f1e0bf0cbc.js"></script>
+        </div>
+        <br><br>
+      </section>
+      <hr><br>
+      <!-- END OF PAYMENT SECTION -->
+
+
+      <!-- NEWS LETTER SECTION -->
+      <section class="newsletter">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-md-6 col-lg-8">
+              <div class="newstext">
+                <h4>Sign Up For Newsletters!</h4>
+                <p>
+                  Get E-Mail updates about our Latest Products and
+                  <span>special offers</span>.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="n-form">
+                <input type="text" placeholder="Your E-Mail Address..." />
+                <button class="btn-normal">Sign Up</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- main-body-end ./ -->
+
+    <footer class="footer">
+      <div class="container-footer">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 contact1">
+            <img
+              src="img/light-logo.png"
+              class="footer-logo"
+              alt="Ora - Logo"
+            />
+            <h4>Contact</h4>
+            <p>
+              <span class="fw-bold">Address:</span> Rr. Ferid Curri, 10000,
+              Prishtina
+            </p>
+            <p><span class="fw-bold">Tel:</span> +383 (0) 49 77 80 80</p>
+            <p>
+              <span class="fw-bold">Open:</span> 07:00 - 22:00, Monday - Friday
+            </p>
+            <div class="social-fllw">
+              <h4>Follow us</h4>
+              <div
+                class="icons d-flex justify-content-between align-items-center"
+              >
+                <a href="https://m.facebook.com/page">
+                  <i class="uil uil-facebook"></i>
+                </a>
+                <a href="https://instagram.com/page">
+                  <i class="uil uil-instagram"></i>
+                </a>
+                <a href="https://twitter.com/page">
+                  <i class="uil uil-twitter-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+         
+          <div class="col-md-6 col-lg-2 contact2">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms&amp;Conditions</a>
+            <a href="#">Contact Us</a>
+          </div>
+
+          <div class="col-md-6 col-lg-2 contact3">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Cart</a>
+            <a href="#">My Wishlist</a>
+            <a href="#">My Order</a>
+            <a href="#">Help?</a>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class="download-on">
+              <img src="img/buttons/app-store.png" alt="" />
+              <img src="img/buttons/google-play.png" alt="" />
+            </div>
+            <p>Secured Payment Getaway</p>
+            <div class="payment">
+              <i class="uil uil-master-card"></i>
+              <i class="uil uil-paypal"></i>
+              <i class="uil uil-transaction"></i>
+              <i class="uil uil-bill"></i>
+              <i class="uil uil-credit-card-search"></i>
+              <i class="uil uil-university"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="copyright">
+          <p class="copy">&copy;<span id="year">. My Web Name.</span></p>
+          <a href="https://my-site.com/" class="go-to-link">
+            <p class="by">By:</p>
+            <span id="author">Web Studio</span>
+          </a>
+        </div>
+      </div>
+
+      <button class="back-to-top hidden">
+        <i class="uil uil-angle-up"></i>
+      </button>
+
+      <!-- <div class="cookie">
+        <div
+          class="welcome-alert alert alert-dismissible fade show"
+          role="alert"
+        >
+          <section class="ms">
+            <strong>Hello, Welcome to Ora-Ks.com!</strong>
+            <h1 id="author">By: <strong>Web Studio</strong></h1>
+          </section>
+          <button type="button" class="btn-close welcome"></button>
+        </div>
+        <div>
+          <img src="img/other/cookie.png" alt="Cookie Png" />
+        </div>
+        <div class="content">
+          <h1>Cookies Content</h1>
+          <p>
+            We use Cookies to ensure you get the best experience while shooping!
+          </p>
+          <a href="#" class="item">Learn more</a>
+        </div>
+        <div class="btn-actions">
+          <button class="item">I Understand</button>
+        </div>
+      </div> -->
+    </footer>
+    <!-- footer-end ./ -->
+
+
+  </body>
+</html>
